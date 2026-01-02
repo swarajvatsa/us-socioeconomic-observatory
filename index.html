@@ -774,7 +774,71 @@
             const ancestors = new Set(d.ancestors());
             d3.selectAll(".node").classed("dim", n => !ancestors.has(n));
             d3.selectAll(".link").classed("dim", l => !ancestors.has(l.target));
-            populateInspector(d.data);
+            populateInspector(d);
+        }
+
+        // Aggregate data from all leaf descendants
+        function aggregateDescendants(node) {
+            const leaves = node.leaves();
+            if (leaves.length === 0) return null;
+
+            let totalPop = 0;
+            let weightedAge = 0;
+            let weightedIncome = 0;
+            let hasFinancial = false;
+            let hasAge = false;
+            let ageMin = Infinity, ageMax = -Infinity;
+            let incomeMin = Infinity, incomeMax = -Infinity;
+
+            leaves.forEach(leaf => {
+                const pop = leaf.data.value || 0;
+                totalPop += pop;
+
+                if (leaf.data.age && leaf.data.age.mean > 0) {
+                    hasAge = true;
+                    weightedAge += leaf.data.age.mean * pop;
+                    const minAge = Math.max(0, leaf.data.age.mean - 3 * leaf.data.age.sigma);
+                    const maxAge = leaf.data.age.mean + 3 * leaf.data.age.sigma;
+                    ageMin = Math.min(ageMin, minAge);
+                    ageMax = Math.max(ageMax, maxAge);
+                }
+
+                if (leaf.data.financial && leaf.data.financial.mean > 0) {
+                    hasFinancial = true;
+                    weightedIncome += leaf.data.financial.mean * pop;
+                    incomeMin = Math.min(incomeMin, leaf.data.financial.mean - leaf.data.financial.sigma);
+                    incomeMax = Math.max(incomeMax, leaf.data.financial.mean + leaf.data.financial.sigma);
+                }
+            });
+
+            const result = {
+                isAggregated: true,
+                childCount: leaves.length,
+                totalPopulation: totalPop
+            };
+
+            if (hasAge && totalPop > 0) {
+                const avgAge = weightedAge / totalPop;
+                const ageRange = ageMax - ageMin;
+                result.age = {
+                    mean: Math.round(avgAge * 10) / 10,
+                    sigma: Math.round(ageRange / 6 * 10) / 10,
+                    bracket: `${Math.round(ageMin)}-${Math.round(ageMax)}`,
+                    nuance: `Aggregated from ${leaves.length} subcategories. Weighted average across ${totalPop.toFixed(1)}M people.`
+                };
+            }
+
+            if (hasFinancial && totalPop > 0) {
+                const avgIncome = weightedIncome / totalPop;
+                const incomeRange = incomeMax - incomeMin;
+                result.financial = {
+                    mean: Math.round(avgIncome),
+                    sigma: Math.round(incomeRange / 4),
+                    nuance: `Aggregated from ${leaves.length} subcategories. Weighted average income across all roles.`
+                };
+            }
+
+            return result;
         }
 
         function resetSelection() {
@@ -787,26 +851,45 @@
         // ==========================================
         // 4. INSPECTOR PANEL LOGIC
         // ==========================================
-        function populateInspector(data) {
+        function populateInspector(node) {
             const panel = document.getElementById("inspector-content");
             const empty = document.getElementById("inspector-empty");
             empty.style.display = "none";
             panel.style.display = "block";
 
+            // Check if this is a parent node with children
+            const isParent = node.children && node.children.length > 0;
+            let displayData = node.data;
+            
+            if (isParent) {
+                // Aggregate data from all descendants
+                const aggregated = aggregateDescendants(node);
+                if (aggregated) {
+                    displayData = {
+                        ...node.data,
+                        ...aggregated,
+                        name: node.data.name,
+                        value: node.data.value,
+                        category: node.data.category
+                    };
+                }
+            }
+
             let html = `
                 <div class="inspector-inner">
                     <div class="panel-header">
-                        <h2 class="role-title">${data.name}</h2>
+                        <h2 class="role-title">${displayData.name}</h2>
                         <span class="role-meta">
-                            <span class="meta-tag">POP: ${data.value}M</span>
-                            <span class="meta-tag">CAT: ${data.category}</span>
+                            <span class="meta-tag">POP: ${displayData.value}M</span>
+                            <span class="meta-tag">CAT: ${displayData.category}</span>
+                            ${displayData.isAggregated ? `<span class="meta-tag" style="background: #fed7aa; color: #9a3412;">AGGREGATED</span>` : ''}
                         </span>
                     </div>
             `;
 
             // --- 1. Actuarial Age Section ---
-            if (data.age && data.age.mean > 0) {
-                const age = data.age;
+            if (displayData.age && displayData.age.mean > 0) {
+                const age = displayData.age;
                 const w = 400, h = 90;
                 const graph = getNormalPoints(age.mean, age.sigma, w, h);
                 let graphSVG = "";
@@ -849,8 +932,8 @@
             }
 
             // --- 2. Financial Section ---
-            if (data.financial && data.financial.mean > 0) {
-                const fin = data.financial;
+            if (displayData.financial && displayData.financial.mean > 0) {
+                const fin = displayData.financial;
                 const w = 400, h = 90;
                 const graph = getLogNormalPoints(fin.mean, fin.sigma, w, h);
                 let graphSVG = "";
@@ -886,8 +969,8 @@
             }
 
             // --- 3. AI Forecast Section ---
-            if (data.ai) {
-                const ai = data.ai;
+            if (displayData.ai) {
+                const ai = displayData.ai;
                 const getTrendClass = (v) => {
                     if(v.includes("+") || v === "Faster") return "pos";
                     if(v.includes("-") || v === "Crisis") return "neg";
