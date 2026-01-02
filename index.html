@@ -553,6 +553,32 @@
                                     age: { mean: 48.1, sigma: 11.5, bracket: "45-64", nuance: "Quintessential Senior Node. Absence of youth is near absolute." }
                                 },
                                 {
+                                    name: "Accountants",
+                                    value: 1.4,
+                                    category: "C",
+                                    financial: { mean: 86000, sigma: 25000, p10: 50000, p90: 130000, nuance: "CPA certification adds premium. Public vs private accounting wage gap." },
+                                    ai: {
+                                        mech: "Automated Analysis: LLMs excel at anomaly detection and reconciling ledgers.",
+                                        mechDetail: "AI systems can automatically reconcile financial statements, detect anomalies in transactions, classify expenses, and generate preliminary audit reports. The 'grunt work' of accounting - data entry, categorization, basic reconciliation - is perfectly suited for automation. However, complex judgment calls about accounting treatments, tax strategy, and forensic investigation require human expertise. The profession is shifting from 'bookkeeping' to 'financial advisory' as routine tasks are automated.",
+                                        t2: "0%", t5: "-5%", t10: "Testing",
+                                        paradox: { title: "Audit Efficiency", text: "Fewer accountants needed for entry-level work creates a shortage of experienced senior partners in 10 years." }
+                                    },
+                                    age: { mean: 44.0, sigma: 12.0, bracket: "30-55", nuance: "Mid-career plateau. CPA exam passage at ~25 creates entry delay." }
+                                },
+                                {
+                                    name: "HR & Compliance",
+                                    value: 0.8,
+                                    category: "C",
+                                    financial: { mean: 75000, sigma: 20000, p10: 45000, p90: 110000, nuance: "Corporate overhead function. CHRO positions command premium." },
+                                    ai: {
+                                        mech: "Algorithmic Management: Automated screening, onboarding. Bias laws create need for human auditors.",
+                                        mechDetail: "AI recruiting tools screen resumes, schedule interviews, and predict candidate fit. Onboarding workflows are automated. Benefits administration uses chatbots. However, algorithmic bias regulations require human oversight to audit AI decisions. The role bifurcates: low-level admin disappears while high-level 'People Analytics' and compliance roles grow. The paradox is that we need humans to audit the AI we built to replace humans.",
+                                        t2: "-1%", t5: "-8%", t10: "Contraction",
+                                        paradox: { title: "The Bias Loop", text: "To prevent AI bias, we hire humans to audit the AI, whose data is then used to retrain the AI." }
+                                    },
+                                    age: { mean: 42.0, sigma: 10.0, bracket: "30-50", nuance: "Female-skewed demographic. High representation in corporate DEI roles." }
+                                },
+                                {
                                     name: "Software Developers",
                                     value: 5.4, 
                                     category: "C",
@@ -727,6 +753,19 @@
                                     age: { mean: 47.5, sigma: 11.0, bracket: "40-60", nuance: "High educational barrier pushes entry age to late 20s." }
                                 },
                                 {
+                                    name: "Paralegals",
+                                    value: 0.7,
+                                    category: "C",
+                                    financial: { mean: 59000, sigma: 12000, p10: 38000, p90: 85000, nuance: "Hourly billing structures under threat. Certificate vs degree splits wage distribution." },
+                                    ai: {
+                                        mech: "Displacement: Core tasks (summarizing, organizing, drafting) are 'Hello World' for LLMs.",
+                                        mechDetail: "Unlike lawyers, paralegals perform the exact text-processing tasks that LLMs excel at: summarizing depositions, organizing evidence databases, drafting standard motions, and conducting legal research. These are the 'grunt work' tasks that represent 70-80% of paralegal time. AI can now complete these tasks in seconds rather than hours. The billable hour model collapses. While lawyers are protected by courtroom requirements and liability, paralegals have no such moat. The role transforms from 'legal assistant' to 'legal data specialist' requiring far fewer people.",
+                                        t2: "-5%", t5: "-15%", t10: "Freeze",
+                                        paradox: { title: "Perfect Substitution", text: "Unlike lawyers, paralegals perform the exact text-processing tasks LLMs excel at." }
+                                    },
+                                    age: { mean: 39.5, sigma: 11.0, bracket: "25-50", nuance: "Younger demographic than lawyers. Associates degree entry point vs JD requirement." }
+                                },
+                                {
                                     name: "Education Admin",
                                     value: 9.6,
                                     category: "C",
@@ -818,6 +857,19 @@
                                         paradox: "Chaos Premium: The messier the environment, the safer the job."
                                     },
                                     age: { mean: 41.6, sigma: 13.1, bracket: "25-54", nuance: "Flat-Topped. Safety Floor (few <18) and Physical Ceiling (few >65)." }
+                                },
+                                {
+                                    name: "Construction Mgrs",
+                                    value: 0.5,
+                                    category: "C",
+                                    financial: { mean: 105000, sigma: 25000, p10: 65000, p90: 160000, nuance: "Premium for managing complexity. General contractors vs specialized supervisors." },
+                                    ai: {
+                                        mech: "Digital Twins: AI simulation aids planning. BIM (Building Information Modeling) optimization.",
+                                        mechDetail: "AI-powered Building Information Modeling (BIM) and digital twin simulations allow construction managers to optimize scheduling, material logistics, and cost estimation before breaking ground. However, the on-site chaos of construction - weather delays, material shortages, labor conflicts, regulatory inspections - requires human judgment and crisis management. AI handles the planning; humans handle the execution and adaptation. The role represents the career progression path for skilled tradespeople who move 'off the tools' into management.",
+                                        t2: "0%", t5: "+2%", t10: "Steady",
+                                        paradox: null
+                                    },
+                                    age: { mean: 44.5, sigma: 10.0, bracket: "35-54", nuance: "Represents time to master trade and physical necessity of moving off 'the tools'." }
                                 },
                                 {
                                     name: "Transport (Logistics)",
