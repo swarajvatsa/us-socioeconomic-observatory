@@ -8,16 +8,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f0f2f5;
-            --card-bg: rgba(255, 255, 255, 0.98);
-            --text-main: #1a202c;
-            --text-sub: #4a5568;
-            --accent-blue: #3182ce;   /* Financial */
-            --accent-green: #38a169;  /* Positive Trend */
-            --accent-red: #e53e3e;    /* Negative Trend */
-            --accent-purple: #805ad5; /* AI */
-            --accent-orange: #dd6b20; /* Demographics */
-            --border-color: #e2e8f0;
+            --bg-color: #000000;
+            --card-bg: #1a1a1a;
+            --text-main: #ffffff;
+            --text-sub: #a0a0a0;
+            --accent-blue: #3b82f6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --accent-orange: #f59e0b;
+            --border-color: #333333;
         }
 
         body {
@@ -29,6 +29,8 @@
             overflow: hidden;
             display: flex;
             height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* --- Left: Visualization Canvas --- */
@@ -42,10 +44,10 @@
 
         #header {
             padding: 16px 32px;
-            background: white;
+            background: #000000;
             border-bottom: 1px solid var(--border-color);
             z-index: 10;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 4px rgba(255,255,255,0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -56,7 +58,7 @@
             font-size: 22px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            color: #2d3748;
+            color: #ffffff;
         }
 
         .header-content .subtitle {
@@ -77,19 +79,19 @@
             align-items: center; 
             gap: 6px; 
             color: var(--text-sub); 
-            background: #f7fafc; 
+            background: #1a1a1a; 
             padding: 6px 12px; 
             border-radius: 20px; 
             border: 1px solid var(--border-color); 
             transition: all 0.2s;
         }
-        .legend-item:hover { background: white; border-color: #cbd5e0; }
+        .legend-item:hover { background: #222222; border-color: #444444; }
         .dot { width: 8px; height: 8px; border-radius: 50%; }
 
         #chart-container {
             flex: 1;
             overflow: auto;
-            background: radial-gradient(circle at center, #ffffff 0%, #f7fafc 100%);
+            background: #000000;
             cursor: grab;
             position: relative;
         }
@@ -97,12 +99,12 @@
 
         /* --- Right: Detail Inspector --- */
         #inspector-panel {
-            width: 480px; /* Widened for extra detail */
-            background: white;
+            width: 480px;
+            background: #0a0a0a;
             border-left: 1px solid var(--border-color);
             overflow-y: auto;
             padding: 0;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
             z-index: 20;
@@ -117,23 +119,23 @@
 
         /* --- Inspector Components --- */
         .panel-header { border-bottom: 2px solid var(--border-color); padding-bottom: 20px; }
-        .role-title { font-size: 26px; font-weight: 800; color: #2d3748; line-height: 1.1; margin: 0; letter-spacing: -0.5px; }
+        .role-title { font-size: 26px; font-weight: 800; color: #ffffff; line-height: 1.1; margin: 0; letter-spacing: -0.5px; }
         .role-meta { 
             font-family: 'JetBrains Mono', monospace; 
             font-size: 11px; 
-            color: #718096; 
+            color: #a0a0a0; 
             margin-top: 10px; 
             display: flex; 
             gap: 15px; 
         }
-        .meta-tag { background: #edf2f7; padding: 2px 6px; border-radius: 4px; color: #4a5568; }
+        .meta-tag { background: #1a1a1a; padding: 2px 6px; border-radius: 4px; color: #d0d0d0; border: 1px solid #333333; }
         
         .section-title {
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1.2px;
             font-weight: 800;
-            color: #a0aec0;
+            color: #808080;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -146,11 +148,11 @@
 
         /* Generic Card Style */
         .data-card { 
-            background: #fff; 
+            background: #0f0f0f; 
             border: 1px solid var(--border-color); 
             border-radius: 10px; 
             padding: 16px; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 3px rgba(255,255,255,0.02);
             position: relative;
             overflow: hidden;
         }
@@ -160,30 +162,30 @@
         
         .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .stat-box { display: flex; flex-direction: column; }
-        .stat-label { font-size: 10px; text-transform: uppercase; color: #718096; font-weight: 700; margin-bottom: 2px;}
-        .stat-value { font-size: 15px; font-weight: 700; color: #2d3748; font-feature-settings: "tnum"; }
+        .stat-label { font-size: 10px; text-transform: uppercase; color: #808080; font-weight: 700; margin-bottom: 2px;}
+        .stat-value { font-size: 15px; font-weight: 700; color: #ffffff; font-feature-settings: "tnum"; }
         
         .nuance-text { 
             font-size: 12px; 
-            color: #4a5568; 
+            color: #b0b0b0; 
             font-style: italic; 
-            background: #f8fafc; 
+            background: #1a1a1a; 
             padding: 10px; 
             border-radius: 6px; 
             margin-top: 12px; 
             line-height: 1.5; 
-            border-left: 3px solid #cbd5e0; 
+            border-left: 3px solid #333333; 
         }
 
         /* AI Specifics */
-        .ai-card { background: #fbfbfc; }
-        .mech-text { font-size: 13px; line-height: 1.5; color: #2d3748; margin-bottom: 16px; font-weight: 500;}
+        .ai-card { background: #0f0f0f; }
+        .mech-text { font-size: 13px; line-height: 1.5; color: #e0e0e0; margin-bottom: 16px; font-weight: 500;}
         
         .timeline-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; }
-        .time-col { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 4px; transition: transform 0.2s;}
-        .time-col:hover { transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .time-head { font-size: 9px; color: #a0aec0; display: block; margin-bottom: 4px; text-transform: uppercase; font-weight: 700;}
-        .time-val { font-size: 13px; font-weight: 800; display: block; }
+        .time-col { background: #1a1a1a; border: 1px solid #333333; border-radius: 6px; padding: 8px 4px; transition: transform 0.2s;}
+        .time-col:hover { transform: translateY(-2px); box-shadow: 0 2px 5px rgba(255,255,255,0.05); }
+        .time-head { font-size: 9px; color: #808080; display: block; margin-bottom: 4px; text-transform: uppercase; font-weight: 700;}
+        .time-val { font-size: 13px; font-weight: 800; display: block; color: #ffffff; }
         
         .pos { color: var(--accent-green); }
         .neg { color: var(--accent-red); }
@@ -191,18 +193,194 @@
 
         /* Paradox Box */
         .paradox-box {
-            background: #fff5f5;
-            border: 1px solid #fed7d7;
-            border-left: 4px solid #e53e3e;
+            background: #1a0f0f;
+            border: 1px solid #4a1a1a;
+            border-left: 4px solid #ef4444;
             padding: 12px;
             border-radius: 6px;
             margin-top: 12px;
         }
-        .paradox-title { color: #c53030; font-weight: 800; font-size: 11px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; text-transform: uppercase;}
-        .paradox-text { font-size: 12px; color: #742a2a; line-height: 1.4; }
+        .paradox-title { color: #ef4444; font-weight: 800; font-size: 11px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; text-transform: uppercase;}
+        .paradox-text { font-size: 12px; color: #fca5a5; line-height: 1.4; }
 
         /* Age Box */
         .age-card { border-top: 3px solid var(--accent-orange); }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            padding: 20px 30px 0 30px;
+            background: white;
+            border-bottom: 2px solid var(--border-color);
+            overflow-x: auto;
+        }
+        .tab-btn {
+            padding: 10px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            color: #a0aec0;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .tab-btn:hover { color: #4a5568; background: #f7fafc; }
+        .tab-btn.active { color: var(--accent-blue); border-bottom-color: var(--accent-blue); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Enhanced Components */
+        .progress-bar {
+            height: 8px;
+            background: #2a2a2a;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+
+        .percentile-ladder {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 12px;
+        }
+        .percentile-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #1a1a1a;
+            border-radius: 6px;
+            border-left: 3px solid #333333;
+        }
+        .percentile-row.highlight { background: #1a2533; border-left-color: var(--accent-blue); font-weight: 700; }
+        .percentile-label { color: #808080; font-size: 11px; text-transform: uppercase; font-weight: 700; }
+        .percentile-value { color: #ffffff; font-weight: 700; font-feature-settings: "tnum"; }
+
+        .geo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .geo-item {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+        .geo-city { font-size: 11px; color: #808080; margin-bottom: 4px; }
+        .geo-salary { font-size: 14px; font-weight: 700; color: #ffffff; }
+        .geo-delta { font-size: 10px; font-weight: 600; margin-top: 2px; }
+
+        .task-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .task-name { flex: 0 0 120px; font-size: 11px; font-weight: 600; color: #a0a0a0; }
+        .task-progress-bar {
+            flex: 1;
+            height: 20px;
+            background: #1a1a1a;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+        .task-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444, #f59e0b);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 6px;
+            font-size: 10px;
+            font-weight: 800;
+            color: white;
+        }
+        .task-desc { font-size: 10px; color: #707070; font-style: italic; margin-top: 2px; }
+
+        .transition-card {
+            background: #0f1a0f;
+            border: 1px solid #1a3a1a;
+            border-left: 3px solid var(--accent-green);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+        .transition-title { font-size: 12px; font-weight: 700; color: #10b981; }
+        .transition-meta { font-size: 10px; color: #6ee7b7; margin-top: 4px; }
+
+        .risk-gauge {
+            text-align: center;
+            padding: 20px;
+        }
+        .risk-score {
+            font-size: 48px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1;
+        }
+        .risk-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #a0a0a0;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        .risk-bar-container {
+            width: 100%;
+            height: 12px;
+            background: linear-gradient(90deg, #10b981, #fbbf24, #ef4444);
+            border-radius: 6px;
+            position: relative;
+            margin-top: 12px;
+        }
+        .risk-indicator {
+            position: absolute;
+            width: 4px;
+            height: 20px;
+            background: #1e293b;
+            top: -4px;
+            border-radius: 2px;
+        }
+
+        .scenario-box {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid;
+        }
+        .scenario-box.best { background: #0f1a0f; border-color: #22c55e; }
+        .scenario-box.worst { background: #1a0f0f; border-color: #ef4444; }
+        .scenario-box.likely { background: #0f1520; border-color: #3b82f6; }
+        .scenario-title { font-size: 11px; font-weight: 800; text-transform: uppercase; margin-bottom: 6px; color: #ffffff; }
+        .scenario-text { font-size: 12px; line-height: 1.5; color: #d0d0d0; }
+
+        .case-study {
+            background: #1a1a0f;
+            border: 1px solid #3a3a1a;
+            border-left: 3px solid #eab308;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #fde047;
+        }
 
         /* Empty State */
         #inspector-empty {
@@ -240,14 +418,14 @@
         .link.dim { opacity: 0.3; }
         .node.dim { opacity: 0.7; }
 
-        .label-main { font-weight: 700; font-size: 12px; fill: #2d3748; text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff; pointer-events: none;}
-        .label-sub { font-size: 10px; fill: #718096; pointer-events: none;}
+        .label-main { font-weight: 700; font-size: 12px; fill: #ffffff; text-shadow: 0 1px 0 #000, 0 -1px 0 #000, 1px 0 0 #000, -1px 0 0 #000; pointer-events: none;}
+        .label-sub { font-size: 10px; fill: #a0a0a0; pointer-events: none;}
 
         /* Scrollbar polish */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 3px; height: 3px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+        ::-webkit-scrollbar-thumb { background: #333333; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #444444; }
 
     </style>
 </head>
@@ -256,15 +434,8 @@
     <div id="viz-panel">
         <div id="header">
             <div class="header-content">
-                <h1>US Socio-Economic Observatory</h1>
-                <p class="subtitle">Deep-Dive Analysis: Financial, AI, & Actuarial Age Demographics (2025-2036)</p>
-            </div>
-            <div id="legend">
-                <div class="legend-item"><div class="dot" style="background: #3b82f6;"></div> Dependents</div>
-                <div class="legend-item"><div class="dot" style="background: #8b5cf6;"></div> Institutional</div>
-                <div class="legend-item"><div class="dot" style="background: #10b981;"></div> Workforce</div>
-                <div class="legend-item"><div class="dot" style="background: #f59e0b;"></div> Unemployed</div>
-                <div class="legend-item"><div class="dot" style="background: #6b7280;"></div> NILF</div>
+                <h1>Job Distribution and AI Impact Analysis</h1>
+                <p class="subtitle">2026 to 2036</p>
             </div>
         </div>
         <div id="chart-container"></div>
@@ -385,16 +556,86 @@
                                     name: "Software Developers",
                                     value: 5.4, 
                                     category: "C",
-                                    financial: { mean: 132000, sigma: 38000, p10: 65000, p90: 195000, nuance: "Driven by geography (Bay Area) and specialization (AI/ML vs Web)." },
+                                    financial: { 
+                                        mean: 132000, sigma: 38000, 
+                                        nuance: "Driven by geography (Bay Area) and specialization (AI/ML vs Web).",
+                                        percentiles: { p10: 65000, p25: 95000, p50: 120000, p75: 165000, p90: 195000 },
+                                        geographic: { bayArea: 185000, nyc: 155000, austin: 125000, rural: 85000 },
+                                        compensation: { base: 110000, bonus: 15000, stock: 5000, benefits: 2000 },
+                                        purchasingPower: { bayArea: 92500, nyc: 103000, austin: 118000, rural: 148000 },
+                                        trajectory: { year1: 70000, year5: 100000, year10: 140000, year20: 180000 },
+                                        volatility: "low"
+                                    },
                                     ai: {
                                         mech: "Hyper-Augmentation: Coding assistants (Copilot) increase productivity 30-50%.",
+                                        mechDetail: "Large Language Models (LLMs) and code generation tools like GitHub Copilot, Cursor, and Claude have fundamentally transformed software development. These tools autocomplete entire functions, generate boilerplate code, explain complex codebases, and even debug errors in real-time. Studies show 30-50% productivity gains for routine tasks. However, the job is shifting from 'writing code' to 'architecting systems' - defining what to build, validating AI output, and ensuring system integrity. The barrier to entry drops as natural language becomes the new programming syntax, but the ceiling rises as system complexity explodes.",
                                         t2: "+2%", t5: "+5%", t10: "Boom?",
+                                        confidenceIntervals: { t2: {mean: 2, low: -5, high: 8}, t5: {mean: 5, low: -10, high: 15}, t10: {mean: 10, low: -15, high: 30} },
+                                        taskDecomposition: [
+                                            {task: "Code Generation", automatable: 70, desc: "Boilerplate, CRUD, basic algorithms"},
+                                            {task: "Architecture Design", automatable: 20, desc: "System design, scalability decisions"},
+                                            {task: "Debugging", automatable: 50, desc: "AI finds bugs, humans fix complex logic"},
+                                            {task: "Code Review", automatable: 40, desc: "AI flags issues, humans assess context"}
+                                        ],
+                                        transitionPaths: [
+                                            {to: "Systems Architect", difficulty: "medium", timeframe: "2-3 years"},
+                                            {to: "Product Manager", difficulty: "high", timeframe: "3-5 years"},
+                                            {to: "AI/ML Engineer", difficulty: "medium", timeframe: "1-2 years"}
+                                        ],
+                                        historicalAnalogy: "Like CAD for engineers in the 1980s - dramatically increased productivity without eliminating the profession. Engineers didn't disappear; they designed more complex systems.",
                                         paradox: { 
                                             title: "Jevons vs. Substitution", 
-                                            text: "Does cheaper coding mean we build 10x more software (Jevons) or do we fire 50% of devs (Substitution)?" 
+                                            text: "Does cheaper coding mean we build 10x more software (Jevons Paradox) or do we fire 50% of devs (Labor Substitution)? History suggests Jevons wins - when costs drop, demand explodes. Every company becomes a software company." 
                                         }
                                     },
-                                    age: { mean: 42.5, sigma: 9.0, bracket: "35-54", nuance: "Matured Tech Sector. 'Boy genius' is a minority. Seasoned managers dominate." }
+                                    age: { 
+                                        mean: 42.5, sigma: 9.0, bracket: "35-54", 
+                                        nuance: "Matured Tech Sector. 'Boy genius' is a minority. Seasoned managers dominate.",
+                                        cohorts: { "20s": 15, "30s": 35, "40s": 30, "50s": 18, "60+": 2 },
+                                        generations: { genZ: 8, millennial: 45, genX: 35, boomer: 12 },
+                                        retirementCliff: 2038,
+                                        experiencePremium: { entry: 65000, mid: 132000, senior: 195000 }
+                                    },
+                                    laborMarket: {
+                                        supplyDemand: { openings: 500000, workers: 5400000, ratio: 0.09, trend: "growing" },
+                                        entryBarriers: { educationYears: 4, certificationCost: 5000, timeToCompetency: 2 },
+                                        turnover: 0.15,
+                                        growth: { historic: 0.08, projected: 0.10 },
+                                        unionDensity: 0.02
+                                    },
+                                    risk: {
+                                        automationRiskScore: 45,
+                                        economicSensitivity: "medium",
+                                        skillTransferability: "high",
+                                        physicalConstraint: "none",
+                                        regulatoryMoat: "low"
+                                    },
+                                    comparative: {
+                                        similarRoles: [
+                                            {name: "Systems Architect", salary: 145000, aiImpact: "+8%"},
+                                            {name: "Data Engineer", salary: 128000, aiImpact: "+10%"},
+                                            {name: "DevOps Engineer", salary: 135000, aiImpact: "+3%"}
+                                        ],
+                                        nationalBenchmark: { vsMedianIncome: 2.1, vsMedianCollege: 1.5 },
+                                        historicalPurchasing: { year1980: 45000, year2000: 75000, year2024: 132000 }
+                                    },
+                                    hidden: {
+                                        benefitsValue: 22000,
+                                        workLifeMetrics: { avgHoursPerWeek: 45, stressIndex: 6.5, burnoutRate: 0.18, remoteEligibility: 0.85 },
+                                        satisfactionIndex: 7.2
+                                    },
+                                    narratives: {
+                                        caseStudies: [
+                                            "Maria, 34, switched from manual QA to AI-assisted development. Uses Copilot to write test suites 5x faster, freeing time for architecture work.",
+                                            "John, 52, senior developer competing with younger talent. AI levels the playing field - his experience in system design becomes more valuable than raw coding speed."
+                                        ],
+                                        policyImplications: "Universal Basic Income would reduce pressure to accept low wages in boom-bust tech cycles, enabling workers to retrain during downturns without financial ruin.",
+                                        scenarios: {
+                                            best: "AI boom creates 2M new tech jobs by 2036 as software becomes virtually free to produce, leading to explosion in digital products.",
+                                            worst: "50% displacement as fully autonomous AI agents write, test, and deploy code without human intervention.",
+                                            likely: "Net +10% growth as augmentation wins. Junior roles disappear but senior architecture roles expand dramatically."
+                                        }
+                                    }
                                 },
                                 {
                                     name: "Engineers (Arch/Eng)",
@@ -407,6 +648,71 @@
                                         paradox: null
                                     },
                                     age: { mean: 43.0, sigma: 12.0, bracket: "30-50", nuance: "Requires degree + licensure period." }
+                                },
+                                {
+                                    name: "Scientists",
+                                    value: 1.9,
+                                    category: "C",
+                                    financial: { mean: 87870, sigma: 29300, p10: 43680, p90: 140280, nuance: "Biotech/Med Sci: μ $105k. PhD premium evident in long tail." },
+                                    ai: {
+                                        mech: "Acceleration: AI compresses the scientific method (Hypothesis → Analysis). AlphaFold disruption.",
+                                        mechDetail: "AI tools like AlphaFold have revolutionized protein structure prediction, compressing decades of experimental work into hours. Machine learning accelerates drug discovery, materials science, and climate modeling by generating hypotheses, simulating experiments, and analyzing massive datasets at superhuman speeds. However, the bottleneck shifts from 'discovery' to 'validation' - real-world experiments, clinical trials, and peer review cannot be automated. Scientists become 'data orchestrators' who design experiments and validate AI-generated insights rather than manually processing results.",
+                                        t2: "+2%", t5: "+5%", t10: "Boom",
+                                        paradox: { title: "Discovery vs Validation", text: "AI accelerates discovery, shifting the bottleneck to 'real-world validation' (clinical trials, lab work)." }
+                                    },
+                                    age: { mean: 44.0, sigma: 11.0, bracket: "30-60", nuance: "PhD requirements push entry age. Long careers typical due to knowledge accumulation." }
+                                },
+                                {
+                                    name: "Physicians",
+                                    value: 2.0,
+                                    category: "C",
+                                    financial: { mean: 230000, sigma: 60000, p10: 150000, p90: 450000, nuance: "Extreme variance by specialty. Primary Care ~$220k; Specialists (Cardio, Ortho) >$400k." },
+                                    ai: {
+                                        mech: "Augmentation (Iron Dome): AI handles diagnostics/paperwork; Humans do ethics/empathy.",
+                                        mechDetail: "AI diagnostic tools (radiology, pathology) achieve superhuman accuracy, while AI scribes eliminate clinical documentation burden that causes burnout. However, the 'Iron Dome' protects physicians: complex ethical decisions (end-of-life care, treatment trade-offs), nuanced patient communication, and legal liability cannot be automated. AI increases physician productivity by removing administrative overhead, paradoxically increasing demand for human doctors as they can see more patients and detect more conditions requiring treatment.",
+                                        t2: "+3%", t5: "+8%", t10: "Shortage",
+                                        paradox: { title: "Diagnostic Abundance", text: "AI finds *more* diseases earlier, increasing the demand for treatment (and doctors)." }
+                                    },
+                                    age: { mean: 51.0, sigma: 10.0, bracket: "35-65", nuance: "Late entry due to 4yr undergrad + 4yr med + 3-7yr residency. Careers extend into 60s." }
+                                },
+                                {
+                                    name: "Nurses",
+                                    value: 3.2,
+                                    category: "C",
+                                    financial: { mean: 86000, sigma: 18000, p10: 55000, p90: 120000, nuance: "Overtime/Travel nursing spikes income. Night differential adds 10-20%." },
+                                    ai: {
+                                        mech: "Robotic Lag: Moravec's Paradox (hard to automate physical care/dexterity).",
+                                        mechDetail: "Moravec's Paradox states: computationally, it is easier to teach a computer to diagnose cancer (pattern recognition) than to change a bedpan (physical dexterity in unstructured environments). Nursing is fundamentally a 'hands-on' profession requiring physical strength, fine motor control, and rapid adaptation to chaotic hospital environments. AI handles charting and medication cross-checking, but cannot perform IV insertion, wound care, patient repositioning, or the dozens of physical tasks that define nursing. Demographic aging drives explosive demand.",
+                                        t2: "+5%", t5: "+12%", t10: "Shortage",
+                                        paradox: { title: "Moravec's Paradox", text: "It is computationally easier to diagnose cancer (math) than to change a bedpan (dexterity)." }
+                                    },
+                                    age: { mean: 43.0, sigma: 12.0, bracket: "25-55", nuance: "Physically demanding work creates early retirement pressure. 12-hour shifts accelerate burnout." }
+                                },
+                                {
+                                    name: "Arts & Media",
+                                    value: 3.5,
+                                    category: "C",
+                                    financial: { mean: 76500, sigma: 30100, p10: 30410, p90: 129670, nuance: "Skewed by top 10% talent. Median ($58k) more representative than mean." },
+                                    ai: {
+                                        mech: "Generative Disruption: Models commoditize 'average' output. 'Human Premium' for connection.",
+                                        mechDetail: "Generative AI (Midjourney, GPT-4, Sora) has commoditized 'average' creative output - stock imagery, basic copywriting, and commercial illustration are now produced at near-zero marginal cost. This collapses the market for mid-tier freelancers. However, 'premium' human creativity - authentic storytelling, live performance, cultural commentary - gains value through scarcity. The 'Human Premium' emerges: as synthetic content floods the market, audiences pay more for verifiable human creation. Artists pivot from 'makers' to 'curators' and 'creative directors' who guide AI tools.",
+                                        t2: "-2%", t5: "-8%", t10: "Strikes",
+                                        paradox: { title: "Content Inflation", text: "As cost of content drops to zero, the value of *filtering* and *curation* skyrockets." }
+                                    },
+                                    age: { mean: 39.0, sigma: 13.0, bracket: "25-45", nuance: "Youth-skewed entry (barriers low), but long tail for established names. Bimodal distribution." }
+                                },
+                                {
+                                    name: "Social Service",
+                                    value: 2.9,
+                                    category: "C",
+                                    financial: { mean: 55000, sigma: 12000, p10: 35000, p90: 80000, nuance: "Govt/Non-Profit wage scales compress variance. Master's degree (MSW) provides modest premium." },
+                                    ai: {
+                                        mech: "Empathy Defense: Edge cases (crisis, grief) require human connection.",
+                                        mechDetail: "Social work operates at the edges of human experience where algorithmic systems catastrophically fail: suicide intervention, child abuse assessment, grief counseling, domestic violence mediation. These scenarios require deep contextual understanding, emotional intelligence, and split-second ethical judgment that AI cannot replicate. AI may automate case management paperwork and benefits eligibility screening, freeing social workers to spend more time on direct human interaction. As technological alienation increases, demand for authentic human connection in mental health and crisis services rises.",
+                                        t2: "+1%", t5: "+5%", t10: "Steady",
+                                        paradox: { title: "Human Premium", text: "As digital interaction becomes cheap/fake, authentic human empathy becomes a luxury good." }
+                                    },
+                                    age: { mean: 42.0, sigma: 12.0, bracket: "30-55", nuance: "High burnout rates affect retention. Vicarious trauma common. Peak productivity 35-50." }
                                 },
                                 {
                                     name: "Legal (Lawyers)",
@@ -686,6 +992,40 @@
         const formatCurrency = d3.format("$,.0f");
 
         // ==========================================
+        // AI IMPACT SCORING
+        // ==========================================
+        function getAIImpactScore(node) {
+            if (!node.data.ai) return 0;
+            const ai = node.data.ai;
+            
+            // Parse t10 (10-year forecast)
+            const t10 = ai.t10.toLowerCase();
+            
+            // Strongly Negative (Red)
+            if (t10.includes('collapse') || t10.includes('-30')) return -3;
+            if (t10.includes('attrition') || t10.includes('-15')) return -2.5;
+            if (t10.includes('reduct') || t10.includes('-12')) return -2.5;
+            if (t10.includes('-10')) return -2;
+            if (t10.includes('chaos') || t10.includes('crisis') || t10.includes('permanent')) return -2;
+            if (t10.includes('-8') || t10.includes('-5')) return -1.5;
+            if (t10.includes('burnout') || t10.includes('risk')) return -1;
+            if (t10.includes('mixed') || t10.includes('slow') || t10.includes('-2')) return -0.5;
+            
+            // Neutral (Yellow)
+            if (t10.includes('stable') || t10.includes('low') || t10.includes('0%')) return 0;
+            if (t10.includes('assist') || t10.includes('hybrid') || t10.includes('ubi')) return 0;
+            if (t10.includes('faster') && !t10.includes('+')) return 0.5;
+            
+            // Positive (Green)
+            if (t10.includes('boom') || t10.includes('+10')) return 3;
+            if (t10.includes('growth') || t10.includes('+4')) return 2;
+            if (t10.includes('gradual') || t10.includes('+3')) return 1.5;
+            if (t10.includes('active') || t10.includes('reshoring') || t10.includes('+2')) return 1;
+            
+            return 0; // Default neutral
+        }
+
+        // ==========================================
         // 3. D3 VIZ ENGINE
         // ==========================================
         function initChart() {
@@ -696,8 +1036,8 @@
             const leafCount = root.leaves().length;
             const nodeSpacing = 50;
             const height = Math.max(container.clientHeight, leafCount * nodeSpacing + 100);
-            const levels = 4; const layerWidth = 320; 
-            const chartWidth = Math.max(width, levels * layerWidth);
+            const levels = 4; const layerWidth = 400; 
+            const chartWidth = Math.max(width, levels * layerWidth + 200);
 
             d3.select("#chart-container").selectAll("*").remove();
 
@@ -706,20 +1046,38 @@
                 .attr("width", chartWidth)
                 .attr("height", height)
                 .append("g")
-                .attr("transform", `translate(80, 40)`);
+                .attr("transform", `translate(200, 40)`);
 
-            const tree = d3.tree().size([height - 80, chartWidth - 300]);
+            const tree = d3.tree().size([height - 80, chartWidth - 400]);
             const treeData = tree(root);
 
             const maxVal = root.data.value;
-            const thickness = d3.scaleLinear().domain([0, maxVal]).range([1, 35]);
+            const thickness = d3.scaleLinear().domain([0, maxVal]).range([15, 150]);
+
+            const colorMap = {
+                "root": "#ffffff",
+                "A": "#3b82f6", "B": "#8b5cf6", "C": "#10b981", "D": "#f59e0b", "E": "#6b7280"
+            };
+
+            // AI Impact Color Scale: Red (negative) -> Yellow (neutral) -> Green (positive)
+            const aiColorScale = d3.scaleLinear()
+                .domain([-3, 0, 3])
+                .range(["#ef4444", "#fbbf24", "#10b981"]);
 
             const links = svg.selectAll(".link")
                 .data(treeData.links())
                 .enter().append("path")
                 .attr("class", "link")
                 .attr("d", d3.linkHorizontal().x(d => d.y).y(d => d.x))
-                .style("stroke", d => colorMap[d.target.data.category] || "#ccc")
+                .style("stroke", d => {
+                    // For leaf nodes, use AI impact gradient
+                    if (!d.target.children || d.target.children.length === 0) {
+                        const aiScore = getAIImpactScore(d.target);
+                        return aiColorScale(aiScore);
+                    }
+                    // For parent nodes, use category color
+                    return colorMap[d.target.data.category] || "#888";
+                })
                 .style("stroke-width", d => thickness(d.target.data.value));
 
             const nodes = svg.selectAll(".node")
@@ -731,14 +1089,45 @@
 
             nodes.append("circle")
                 .attr("r", 6)
-                .style("fill", d => colorMap[d.data.category] || "#999");
+                .style("fill", d => colorMap[d.data.category] || "#888");
 
+            // Title text with optional arrow for workforce leaf nodes
             nodes.append("text")
                 .attr("dy", -10)
                 .attr("x", d => d.children ? -10 : 10)
                 .style("text-anchor", d => d.children ? "end" : "start")
-                .text(d => d.data.name)
-                .attr("class", "label-main");
+                .attr("class", "label-main")
+                .each(function(d) {
+                    const isLeaf = !d.children || d.children.length === 0;
+                    const isWorkforce = d.data.category === 'B' || d.data.category === 'C' || d.data.category === 'D';
+                    const showArrow = isLeaf && isWorkforce;
+                    
+                    // Add name text
+                    const text = d3.select(this);
+                    text.text(d.data.name);
+                    
+                    // Add arrow if applicable
+                    if (showArrow) {
+                        const bbox = this.getBBox();
+                        const aiScore = getAIImpactScore(d);
+                        const arrowColor = aiColorScale(aiScore);
+                        
+                        // Choose arrow direction based on AI impact
+                        let arrowSymbol = "→";
+                        if (aiScore > 0.5) {
+                            arrowSymbol = "↑"; // Positive impact
+                        } else if (aiScore < -0.5) {
+                            arrowSymbol = "↓"; // Negative impact
+                        }
+                        
+                        text.append("tspan")
+                            .attr("dx", "8")
+                            .style("font-size", "22px")
+                            .style("fill", arrowColor)
+                            .style("font-weight", "900")
+                            .text(arrowSymbol);
+                    }
+                });
 
             nodes.append("text")
                 .attr("dy", 12)
@@ -851,161 +1240,858 @@
         // ==========================================
         // 4. INSPECTOR PANEL LOGIC
         // ==========================================
+        let currentTab = 'demographics';
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.tab === tabName);
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.toggle('active', content.id === `tab-${tabName}`);
+            });
+        }
+
         function populateInspector(node) {
             const panel = document.getElementById("inspector-content");
             const empty = document.getElementById("inspector-empty");
             empty.style.display = "none";
             panel.style.display = "block";
 
-            // Check if this is a parent node with children
             const isParent = node.children && node.children.length > 0;
             let displayData = node.data;
             
             if (isParent) {
-                // Aggregate data from all descendants
                 const aggregated = aggregateDescendants(node);
                 if (aggregated) {
-                    displayData = {
-                        ...node.data,
-                        ...aggregated,
-                        name: node.data.name,
-                        value: node.data.value,
-                        category: node.data.category
-                    };
+                    displayData = {...node.data, ...aggregated};
                 }
+            }
+
+            // Single scrollable view - no tabs
+            let html = `
+                <div class="panel-header" style="padding: 20px 30px;">
+                    <h2 class="role-title">${displayData.name}</h2>
+                    <span class="role-meta">
+                        <span class="meta-tag">POP: ${displayData.value}M</span>
+                        <span class="meta-tag">CAT: ${displayData.category}</span>
+                        ${displayData.isAggregated ? `<span class="meta-tag" style="background: #fed7aa; color: #9a3412;">AGGREGATED</span>` : ''}
+                    </span>
+                </div>
+                <div class="inspector-inner">
+            `;
+
+            html += renderDemographicsTab(displayData);
+            html += renderFinancialTab(displayData);
+            html += renderAITab(displayData);
+            html += renderLaborMarketTab(displayData);
+
+            html += `</div>`;
+            panel.innerHTML = html;
+        }
+
+        // === TAB RENDERERS ===
+        function renderDemographicsTab(data) {
+            if (!data.age || data.age.mean <= 0) return '';
+            
+            const age = data.age;
+            const w = 400, h = 90;
+            const graph = getNormalPoints(age.mean, age.sigma, w, h);
+            let graphSVG = "";
+            if (graph) {
+                const xMean = graph.xScale(age.mean);
+                graphSVG = `
+                    <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}">
+                        <path d="${graph.path}" fill="rgba(245, 158, 11, 0.1)" stroke="none" />
+                        <path d="${graph.linePath}" fill="none" stroke="#f59e0b" stroke-width="2" />
+                        <line x1="${xMean}" y1="0" x2="${xMean}" y2="${h}" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,2"/>
+                        <text x="${xMean+5}" y="15" fill="#f59e0b" font-size="10" font-weight="bold">μ ${age.mean}</text>
+                        <text x="5" y="${h-5}" fill="#a0a0a0" font-size="9">${Math.round(graph.xMin)}</text>
+                        <text x="${w-20}" y="${h-5}" fill="#a0a0a0" font-size="9">${Math.round(graph.xMax)}</text>
+                    </svg>
+                `;
             }
 
             let html = `
-                <div class="inspector-inner">
-                    <div class="panel-header">
-                        <h2 class="role-title">${displayData.name}</h2>
-                        <span class="role-meta">
-                            <span class="meta-tag">POP: ${displayData.value}M</span>
-                            <span class="meta-tag">CAT: ${displayData.category}</span>
-                            ${displayData.isAggregated ? `<span class="meta-tag" style="background: #fed7aa; color: #9a3412;">AGGREGATED</span>` : ''}
-                        </span>
+                <div class="section-title age">Age Distribution</div>
+                <div class="data-card age-card">
+                    <div class="dist-chart-container">${graphSVG}</div>
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <span class="stat-label">Mean Age (μ)</span>
+                            <span class="stat-value" style="color:var(--accent-orange)">${age.mean} yrs</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Sigma (σ)</span>
+                            <span class="stat-value">±${age.sigma} yrs</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Primary Bracket</span>
+                            <span class="stat-value">${age.bracket}</span>
+                        </div>
+                    </div>
+                    <div class="nuance-text" style="border-color:var(--accent-orange)">${age.nuance}</div>
+                </div>
+            `;
+
+            // Age Cohort Breakdown
+            if (age.cohorts) {
+                html += `
+                    <div class="section-title age">Age Cohort Breakdown</div>
+                    <div class="data-card">
+                `;
+                Object.entries(age.cohorts).forEach(([cohort, pct]) => {
+                    const barWidth = pct;
+                    html += `
+                        <div style="margin-bottom:12px;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
+                                <span style="font-size:11px; font-weight:700; color:#a0a0a0;">${cohort}</span>
+                                <span style="font-size:11px; font-weight:700; color:var(--accent-orange);">${pct}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width:${barWidth}%; background:var(--accent-orange);"></div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            // Experience Premium
+            if (age.experiencePremium) {
+                const ep = age.experiencePremium;
+                html += `
+                    <div class="section-title age">Experience Premium Curve</div>
+                    <div class="data-card">
+                        <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                            <div class="stat-box">
+                                <span class="stat-label">Entry (0-3yr)</span>
+                                <span class="stat-value" style="font-size:13px;">${formatCurrency(ep.entry)}</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Mid (4-10yr)</span>
+                                <span class="stat-value" style="font-size:13px; color:var(--accent-blue);">${formatCurrency(ep.mid)}</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Senior (11+yr)</span>
+                                <span class="stat-value" style="font-size:13px;">${formatCurrency(ep.senior)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return html;
+        }
+
+        function renderFinancialTab(data) {
+            if (!data.financial || data.financial.mean <= 0) return '';
+            
+            const fin = data.financial;
+            let html = '';
+
+            // Distribution Curve
+            const w = 400, h = 90;
+            const graph = getLogNormalPoints(fin.mean, fin.sigma, w, h);
+            let graphSVG = "";
+            if(graph) {
+                const xMean = graph.xScale(fin.mean);
+                graphSVG = `
+                    <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}">
+                        <path d="${graph.path}" fill="rgba(59, 130, 246, 0.1)" stroke="none" />
+                        <path d="${graph.linePath}" fill="none" stroke="#3b82f6" stroke-width="2" />
+                        <line x1="${xMean}" y1="0" x2="${xMean}" y2="${h}" stroke="#3b82f6" stroke-width="1" stroke-dasharray="4,2"/>
+                        <text x="${xMean+5}" y="15" fill="#3b82f6" font-size="10" font-weight="bold">AVG</text>
+                    </svg>
+                `;
+            }
+
+            html += `
+                <div class="section-title fin">Income Distribution</div>
+                <div class="data-card">
+                    <div class="dist-chart-container">${graphSVG}</div>
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <span class="stat-label">Mean Income</span>
+                            <span class="stat-value" style="color:var(--accent-blue)">${formatCurrency(fin.mean)}</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Std Deviation</span>
+                            <span class="stat-value">±${formatCurrency(fin.sigma)}</span>
+                        </div>
+                    </div>
+                    <div class="nuance-text" style="border-color:var(--accent-blue)">${fin.nuance}</div>
+                </div>
+            `;
+
+            // Percentile Ladder
+            if (fin.percentiles) {
+                const p = fin.percentiles;
+                html += `
+                    <div class="section-title fin">Percentile Breakdown</div>
+                    <div class="data-card">
+                        <div class="percentile-ladder">
+                            <div class="percentile-row">
+                                <span class="percentile-label">P90 (Top 10%)</span>
+                                <span class="percentile-value">${formatCurrency(p.p90)}</span>
+                            </div>
+                            <div class="percentile-row">
+                                <span class="percentile-label">P75 (Upper Quartile)</span>
+                                <span class="percentile-value">${formatCurrency(p.p75)}</span>
+                            </div>
+                            <div class="percentile-row highlight">
+                                <span class="percentile-label">P50 (MEDIAN)</span>
+                                <span class="percentile-value">${formatCurrency(p.p50)}</span>
+                            </div>
+                            <div class="percentile-row">
+                                <span class="percentile-label">P25 (Lower Quartile)</span>
+                                <span class="percentile-value">${formatCurrency(p.p25)}</span>
+                            </div>
+                            <div class="percentile-row">
+                                <span class="percentile-label">P10 (Bottom 10%)</span>
+                                <span class="percentile-value">${formatCurrency(p.p10)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Geographic Variance
+            if (fin.geographic) {
+                const geo = fin.geographic;
+                const calcDelta = (val) => Math.round(((val - fin.mean) / fin.mean) * 100);
+                html += `
+                    <div class="section-title fin">Geographic Salary Variance</div>
+                    <div class="data-card">
+                        <div class="geo-grid">
+                            <div class="geo-item">
+                                <div class="geo-city">🌁 Bay Area</div>
+                                <div class="geo-salary">${formatCurrency(geo.bayArea)}</div>
+                                <div class="geo-delta" style="color:var(--accent-green);">+${calcDelta(geo.bayArea)}%</div>
+                            </div>
+                            <div class="geo-item">
+                                <div class="geo-city">🗽 NYC</div>
+                                <div class="geo-salary">${formatCurrency(geo.nyc)}</div>
+                                <div class="geo-delta" style="color:var(--accent-green);">+${calcDelta(geo.nyc)}%</div>
+                            </div>
+                            <div class="geo-item">
+                                <div class="geo-city">🤠 Austin</div>
+                                <div class="geo-salary">${formatCurrency(geo.austin)}</div>
+                                <div class="geo-delta" style="color:${calcDelta(geo.austin) >= 0 ? 'var(--accent-green)' : 'var(--accent-red)'};">${calcDelta(geo.austin)}%</div>
+                            </div>
+                            <div class="geo-item">
+                                <div class="geo-city">🌾 Rural</div>
+                                <div class="geo-salary">${formatCurrency(geo.rural)}</div>
+                                <div class="geo-delta" style="color:var(--accent-red);">${calcDelta(geo.rural)}%</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Compensation Breakdown
+            if (fin.compensation) {
+                const comp = fin.compensation;
+                const total = comp.base + comp.bonus + comp.stock + comp.benefits;
+                html += `
+                    <div class="section-title fin">Total Compensation Breakdown</div>
+                    <div class="data-card">
+                        <div style="margin-bottom:16px;">
+                            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:8px;">
+                                <span>Base Salary (${Math.round(comp.base/total*100)}%)</span>
+                                <span style="font-weight:700;">${formatCurrency(comp.base)}</span>
+                            </div>
+                            <div class="progress-bar" style="height:12px;">
+                                <div class="progress-fill" style="width:${comp.base/total*100}%; background:#3b82f6;"></div>
+                            </div>
+                        </div>
+                        <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:11px;">
+                            <div class="stat-box">
+                                <span class="stat-label">Bonus</span>
+                                <span class="stat-value" style="font-size:13px;">${formatCurrency(comp.bonus)}</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Stock</span>
+                                <span class="stat-value" style="font-size:13px;">${formatCurrency(comp.stock)}</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Benefits</span>
+                                <span class="stat-value" style="font-size:13px;">${formatCurrency(comp.benefits)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Purchasing Power
+            if (fin.purchasingPower) {
+                const pp = fin.purchasingPower;
+                html += `
+                    <div class="section-title fin">Purchasing Power (CoL Adjusted)</div>
+                    <div class="data-card">
+                        <p style="font-size:12px; color:#a0a0a0; margin-bottom:12px;">Real income after cost of living adjustments:</p>
+                        <div class="geo-grid">
+                            <div class="geo-item"><div class="geo-city">Bay Area</div><div class="geo-salary">${formatCurrency(pp.bayArea)}</div></div>
+                            <div class="geo-item"><div class="geo-city">NYC</div><div class="geo-salary">${formatCurrency(pp.nyc)}</div></div>
+                            <div class="geo-item"><div class="geo-city">Austin</div><div class="geo-salary">${formatCurrency(pp.austin)}</div></div>
+                            <div class="geo-item"><div class="geo-city">Rural</div><div class="geo-salary">${formatCurrency(pp.rural)}</div></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Career Trajectory
+            if (fin.trajectory) {
+                const traj = fin.trajectory;
+                html += `
+                    <div class="section-title fin">Career Salary Trajectory</div>
+                    <div class="data-card">
+                        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; text-align:center;">
+                            <div style="padding:10px; background:#1a1a1a; border-radius:6px;">
+                                <div style="font-size:10px; color:#808080; margin-bottom:4px;">Year 1</div>
+                                <div style="font-size:14px; font-weight:800; color:#ffffff;">${formatCurrency(traj.year1)}</div>
+                            </div>
+                            <div style="padding:10px; background:#1a1a1a; border-radius:6px;">
+                                <div style="font-size:10px; color:#808080; margin-bottom:4px;">Year 5</div>
+                                <div style="font-size:14px; font-weight:800; color:#ffffff;">${formatCurrency(traj.year5)}</div>
+                            </div>
+                            <div style="padding:10px; background:#1a1a1a; border-radius:6px;">
+                                <div style="font-size:10px; color:#808080; margin-bottom:4px;">Year 10</div>
+                                <div style="font-size:14px; font-weight:800; color:#ffffff;">${formatCurrency(traj.year10)}</div>
+                            </div>
+                            <div style="padding:10px; background:#1a1a1a; border-radius:6px;">
+                                <div style="font-size:10px; color:#808080; margin-bottom:4px;">Year 20</div>
+                                <div style="font-size:14px; font-weight:800; color:var(--accent-green);">${formatCurrency(traj.year20)}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return html;
+        }
+
+        function renderAITab(data) {
+            if (!data.ai) return '';
+            
+            const ai = data.ai;
+            let html = '';
+
+            // Detailed Mechanism
+            if (ai.mechDetail) {
+                html += `
+                    <div class="section-title ai">Mechanism of Action</div>
+                    <div class="data-card ai-card">
+                        <p style="font-size:13px; line-height:1.6; color:#e0e0e0;">${ai.mechDetail}</p>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="section-title ai">Mechanism</div>
+                    <div class="data-card ai-card">
+                        <div class="mech-text"><strong>Impact:</strong> ${ai.mech}</div>
+                    </div>
+                `;
+            }
+
+            // Timeline with Confidence Intervals
+            const getTrendClass = (v) => {
+                if(v.includes("+") || v === "Faster") return "pos";
+                if(v.includes("-") || v === "Crisis") return "neg";
+                return "neu";
+            };
+
+            html += `
+                <div class="section-title ai">Employment Impact Forecast</div>
+                <div class="data-card ai-card">
+                    <div class="timeline-grid">
+                        <div class="time-col">
+                            <span class="time-head">2-Year</span>
+                            <span class="time-val ${getTrendClass(ai.t2)}">${ai.t2}</span>
+                        </div>
+                        <div class="time-col">
+                            <span class="time-head">5-Year</span>
+                            <span class="time-val ${getTrendClass(ai.t5)}">${ai.t5}</span>
+                        </div>
+                        <div class="time-col">
+                            <span class="time-head">10-Year</span>
+                            <span class="time-val ${getTrendClass(ai.t10)}">${ai.t10}</span>
+                        </div>
                     </div>
             `;
 
-            // --- 1. Actuarial Age Section ---
-            if (displayData.age && displayData.age.mean > 0) {
-                const age = displayData.age;
-                const w = 400, h = 90;
-                const graph = getNormalPoints(age.mean, age.sigma, w, h);
-                let graphSVG = "";
-                if (graph) {
-                    const xMean = graph.xScale(age.mean);
-                    graphSVG = `
-                        <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}">
-                            <path d="${graph.path}" fill="#fff7ed" stroke="none" />
-                            <path d="${graph.linePath}" fill="none" stroke="var(--accent-orange)" stroke-width="2" />
-                            <line x1="${xMean}" y1="0" x2="${xMean}" y2="${h}" stroke="var(--accent-orange)" stroke-width="1" stroke-dasharray="4,2"/>
-                            <text x="${xMean+5}" y="15" fill="var(--accent-orange)" font-size="10" font-weight="bold">μ ${age.mean}</text>
-                            
-                            <text x="5" y="${h-5}" fill="#a0aec0" font-size="9">${Math.round(graph.xMin)}</text>
-                            <text x="${w-20}" y="${h-5}" fill="#a0aec0" font-size="9">${Math.round(graph.xMax)}</text>
-                        </svg>
-                    `;
-                }
-
+            if (ai.confidenceIntervals) {
+                const ci = ai.confidenceIntervals;
                 html += `
-                    <div class="section-title age">Actuarial Age Analysis</div>
-                    <div class="data-card age-card">
-                        <div class="dist-chart-container">${graphSVG}</div>
-                        <div class="stat-grid">
-                            <div class="stat-box">
-                                <span class="stat-label">Mean Age (μ)</span>
-                                <span class="stat-value" style="color:var(--accent-orange)">${age.mean} yrs</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-label">Sigma (σ)</span>
-                                <span class="stat-value">±${age.sigma} yrs</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-label">Primary Bracket</span>
-                                <span class="stat-value">${age.bracket}</span>
-                            </div>
+                    <div style="margin-top:16px; font-size:11px; color:#a0a0a0;">
+                        <div style="font-weight:700; margin-bottom:8px; color:#ffffff;">Confidence Intervals:</div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; font-size:10px;">
+                            <div>2yr: ${ci.t2.low}% to +${ci.t2.high}%</div>
+                            <div>5yr: ${ci.t5.low}% to +${ci.t5.high}%</div>
+                            <div>10yr: ${ci.t10.low}% to +${ci.t10.high}%</div>
                         </div>
-                        <div class="nuance-text" style="border-color:var(--accent-orange)">${age.nuance}</div>
-                    </div>
-                `;
-            }
-
-            // --- 2. Financial Section ---
-            if (displayData.financial && displayData.financial.mean > 0) {
-                const fin = displayData.financial;
-                const w = 400, h = 90;
-                const graph = getLogNormalPoints(fin.mean, fin.sigma, w, h);
-                let graphSVG = "";
-                if(graph) {
-                    const xMean = graph.xScale(fin.mean);
-                    graphSVG = `
-                        <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}">
-                            <path d="${graph.path}" fill="#ebf8ff" stroke="none" />
-                            <path d="${graph.linePath}" fill="none" stroke="var(--accent-blue)" stroke-width="2" />
-                            <line x1="${xMean}" y1="0" x2="${xMean}" y2="${h}" stroke="var(--accent-blue)" stroke-width="1" stroke-dasharray="4,2"/>
-                            <text x="${xMean+5}" y="15" fill="var(--accent-blue)" font-size="10" font-weight="bold">AVG</text>
-                        </svg>
-                    `;
-                }
-
-                html += `
-                    <div class="section-title fin">Financial Distribution</div>
-                    <div class="data-card">
-                        <div class="dist-chart-container">${graphSVG}</div>
-                        <div class="stat-grid">
-                            <div class="stat-box">
-                                <span class="stat-label">Avg Income</span>
-                                <span class="stat-value" style="color:var(--accent-blue)">${formatCurrency(fin.mean)}</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-label">Variance</span>
-                                <span class="stat-value">±${formatCurrency(fin.sigma)}</span>
-                            </div>
-                        </div>
-                        <div class="nuance-text" style="border-color:var(--accent-blue)">${fin.nuance}</div>
-                    </div>
-                `;
-            }
-
-            // --- 3. AI Forecast Section ---
-            if (displayData.ai) {
-                const ai = displayData.ai;
-                const getTrendClass = (v) => {
-                    if(v.includes("+") || v === "Faster") return "pos";
-                    if(v.includes("-") || v === "Crisis") return "neg";
-                    return "neu";
-                };
-
-                html += `
-                    <div class="section-title ai">AI Impact Horizon (2026-36)</div>
-                    <div class="data-card ai-card">
-                        <div class="mech-text"><strong>Mechanism:</strong> ${ai.mech}</div>
-                        <div class="timeline-grid">
-                            <div class="time-col">
-                                <span class="time-head">2-Year</span>
-                                <span class="time-val ${getTrendClass(ai.t2)}">${ai.t2}</span>
-                            </div>
-                            <div class="time-col">
-                                <span class="time-head">5-Year</span>
-                                <span class="time-val ${getTrendClass(ai.t5)}">${ai.t5}</span>
-                            </div>
-                            <div class="time-col">
-                                <span class="time-head">10-Year</span>
-                                <span class="time-val ${getTrendClass(ai.t10)}">${ai.t10}</span>
-                            </div>
-                        </div>
-                        ${ai.paradox ? `
-                        <div class="paradox-box">
-                            <div class="paradox-title">⚠️ Economic Paradox</div>
-                            <div class="paradox-text">${ai.paradox.title ? '<strong>' + ai.paradox.title + ':</strong> ' : ''}${ai.paradox.text || ai.paradox}</div>
-                        </div>` : ''}
                     </div>
                 `;
             }
 
             html += `</div>`;
-            panel.innerHTML = html;
+
+            // Task Automation Breakdown
+            if (ai.taskDecomposition) {
+                html += `
+                    <div class="section-title ai">Task Automation Analysis</div>
+                    <div class="data-card">
+                `;
+                ai.taskDecomposition.forEach(task => {
+                    const color = task.automatable > 60 ? '#ef4444' : task.automatable > 30 ? '#f59e0b' : '#10b981';
+                    html += `
+                        <div class="task-bar">
+                            <div class="task-name">${task.task}</div>
+                            <div class="task-progress-bar">
+                                <div class="task-progress-fill" style="width:${task.automatable}%; background:${color};">
+                                    ${task.automatable}%
+                                </div>
+                            </div>
+                        </div>
+                        <div class="task-desc">${task.desc}</div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            // Transition Pathways
+            if (ai.transitionPaths) {
+                html += `
+                    <div class="section-title ai">Career Transition Pathways</div>
+                `;
+                ai.transitionPaths.forEach(path => {
+                    const diffBadge = path.difficulty === 'high' ? '🔴 High' : path.difficulty === 'medium' ? '🟡 Med' : '🟢 Low';
+                    html += `
+                        <div class="transition-card">
+                            <div class="transition-title">→ ${path.to}</div>
+                            <div class="transition-meta">Difficulty: ${diffBadge} | Timeframe: ${path.timeframe}</div>
+                        </div>
+                    `;
+                });
+            }
+
+
+            return html;
+        }
+
+        function renderLaborMarketTab(data) {
+            if (!data.laborMarket) return '';
+            
+            const lm = data.laborMarket;
+            let html = '';
+
+            // Supply & Demand
+            if (lm.supplyDemand) {
+                const sd = lm.supplyDemand;
+                const status = sd.ratio > 0.15 ? '🔴 SHORTAGE' : sd.ratio > 0.05 ? '🟢 HIGH DEMAND' : '🟡 BALANCED';
+                html += `
+                    <div class="section-title">Supply & Demand</div>
+                    <div class="data-card">
+                        <div class="stat-grid">
+                            <div class="stat-box">
+                                <span class="stat-label">Job Openings</span>
+                                <span class="stat-value">${(sd.openings/1000).toFixed(0)}K</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Total Workers</span>
+                                <span class="stat-value">${(sd.workers/1000000).toFixed(1)}M</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Ratio</span>
+                                <span class="stat-value">${(sd.ratio * 100).toFixed(1)}%</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Status</span>
+                                <span class="stat-value" style="font-size:13px;">${status}</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px; padding:8px; background:${sd.trend === 'growing' ? '#0f1a0f' : '#1a0f0f'}; border-radius:6px; font-size:11px; color:#ffffff;">
+                            📊 Trend: <strong style="text-transform:uppercase;">${sd.trend}</strong>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Entry Barriers
+            if (lm.entryBarriers) {
+                const eb = lm.entryBarriers;
+                html += `
+                    <div class="section-title">Entry Barriers</div>
+                    <div class="data-card">
+                        <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                            <div class="stat-box">
+                                <span class="stat-label">Education</span>
+                                <span class="stat-value">${eb.educationYears} yrs</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Cert Cost</span>
+                                <span class="stat-value">${formatCurrency(eb.certificationCost)}</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Time to Job</span>
+                                <span class="stat-value">${eb.timeToCompetency} yrs</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px;">
+                            <div style="font-size:11px; color:#808080; margin-bottom:6px;">Difficulty Level:</div>
+                            <div style="display:flex; gap:4px;">
+                                ${Array(5).fill(0).map((_, i) => {
+                                    const filled = i < Math.ceil(eb.educationYears / 1.5);
+                                    return `<div style="flex:1; height:8px; background:${filled ? '#f59e0b' : '#2a2a2a'}; border-radius:2px;"></div>`;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Market Health
+            html += `
+                <div class="section-title">Market Health Metrics</div>
+                <div class="data-card">
+                    <div style="display:flex; flex-direction:column; gap:12px;">
+                        <div style="display:flex; justify-content:space-between; padding:10px; background:#1a1a1a; border-radius:6px;">
+                            <span style="font-size:11px; color:#808080;">Annual Turnover</span>
+                            <span style="font-size:14px; font-weight:700; color:#ffffff;">${(lm.turnover * 100).toFixed(0)}%</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:10px; background:#1a1a1a; border-radius:6px;">
+                            <span style="font-size:11px; color:#808080;">Historic Growth (2015-25)</span>
+                            <span style="font-size:14px; font-weight:700; color:var(--accent-green);">+${(lm.growth.historic * 100).toFixed(0)}%/yr</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:10px; background:#0f1520; border-radius:6px;">
+                            <span style="font-size:11px; color:#60a5fa;">Projected Growth (2025-35)</span>
+                            <span style="font-size:14px; font-weight:700; color:var(--accent-blue);">+${(lm.growth.projected * 100).toFixed(0)}%/yr</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:10px; background:#1a1a1a; border-radius:6px;">
+                            <span style="font-size:11px; color:#808080;">Union Density</span>
+                            <span style="font-size:14px; font-weight:700; color:#ffffff;">${(lm.unionDensity * 100).toFixed(0)}%</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        function renderRiskTab(data) {
+            if (!data.risk) return '<p style="color:#a0aec0; padding:20px;">No risk profile data available.</p>';
+            
+            const risk = data.risk;
+            let html = '';
+
+            // Automation Risk Gauge
+            const riskScore = risk.automationRiskScore;
+            const riskLevel = riskScore > 70 ? 'HIGH RISK' : riskScore > 40 ? 'MODERATE' : 'LOW RISK';
+            const riskColor = riskScore > 70 ? '#ef4444' : riskScore > 40 ? '#f59e0b' : '#10b981';
+
+            html += `
+                <div class="section-title" style="color:${riskColor};">Automation Risk Score</div>
+                <div class="data-card">
+                    <div class="risk-gauge">
+                        <div class="risk-score" style="color:${riskColor};">${riskScore}</div>
+                        <div class="risk-label" style="color:${riskColor};">${riskLevel}</div>
+                        <div class="risk-bar-container">
+                            <div class="risk-indicator" style="left:${riskScore}%;"></div>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:10px; color:#94a3b8;">
+                            <span>0 (Safe)</span>
+                            <span>50</span>
+                            <span>100 (High Risk)</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Risk Factors Breakdown
+            html += `
+                <div class="section-title">Risk Factor Analysis</div>
+                <div class="data-card">
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <div style="padding:10px; background:#f8fafc; border-radius:6px; border-left:3px solid ${riskColor};">
+                            <div style="font-size:11px; color:#718096; margin-bottom:4px;">🤖 Automation Risk</div>
+                            <div style="font-size:16px; font-weight:800;">${riskScore}/100</div>
+                        </div>
+                        <div style="padding:10px; background:#f8fafc; border-radius:6px;">
+                            <div style="font-size:11px; color:#718096; margin-bottom:4px;">📉 Economic Sensitivity</div>
+                            <div style="font-size:14px; font-weight:700; text-transform:capitalize;">${risk.economicSensitivity}</div>
+                        </div>
+                        <div style="padding:10px; background:#f8fafc; border-radius:6px;">
+                            <div style="font-size:11px; color:#718096; margin-bottom:4px;">🔄 Skill Transferability</div>
+                            <div style="font-size:14px; font-weight:700; text-transform:capitalize;">${risk.skillTransferability}</div>
+                        </div>
+                        <div style="padding:10px; background:#f8fafc; border-radius:6px;">
+                            <div style="font-size:11px; color:#718096; margin-bottom:4px;">🦾 Physical Constraint</div>
+                            <div style="font-size:14px; font-weight:700; text-transform:capitalize;">${risk.physicalConstraint}</div>
+                        </div>
+                        <div style="padding:10px; background:#f8fafc; border-radius:6px;">
+                            <div style="font-size:11px; color:#718096; margin-bottom:4px;">⚖️ Regulatory Moat</div>
+                            <div style="font-size:14px; font-weight:700; text-transform:capitalize;">${risk.regulatoryMoat}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Resilience Strategy
+            html += `
+                <div class="data-card" style="background:#eff6ff; border-color:#3b82f6;">
+                    <div style="font-size:11px; font-weight:800; color:#1e40af; margin-bottom:8px; text-transform:uppercase;">💼 Resilience Strategy</div>
+                    <ul style="margin:0; padding-left:20px; font-size:12px; line-height:1.8; color:#1e3a8a;">
+                        <li>Continuously upskill in areas AI cannot replicate</li>
+                        <li>Build soft skills (leadership, communication)</li>
+                        <li>Focus on system thinking vs task execution</li>
+                    </ul>
+                </div>
+            `;
+
+            return html;
+        }
+
+        function renderComparisonsTab(data) {
+            if (!data.comparative) return '<p style="color:#a0aec0; padding:20px;">No comparison data available.</p>';
+            
+            const comp = data.comparative;
+            let html = '';
+
+            // Similar Roles
+            if (comp.similarRoles) {
+                html += `
+                    <div class="section-title">Similar Occupations</div>
+                    <div class="data-card">
+                        <table style="width:100%; font-size:12px; border-collapse:collapse;">
+                            <thead>
+                                <tr style="border-bottom:2px solid var(--border-color);">
+                                    <th style="text-align:left; padding:8px; font-size:10px; color:#718096; font-weight:700;">ROLE</th>
+                                    <th style="text-align:right; padding:8px; font-size:10px; color:#718096; font-weight:700;">SALARY</th>
+                                    <th style="text-align:right; padding:8px; font-size:10px; color:#718096; font-weight:700;">AI IMPACT</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background:#ebf8ff; font-weight:700;">
+                                    <td style="padding:10px; border-radius:4px;">This Job</td>
+                                    <td style="text-align:right; padding:10px;">${formatCurrency(data.financial.mean)}</td>
+                                    <td style="text-align:right; padding:10px; color:var(--accent-blue);">—</td>
+                                </tr>
+                `;
+                comp.similarRoles.forEach(role => {
+                    const impactColor = role.aiImpact.includes('+') ? 'var(--accent-green)' : role.aiImpact.includes('-') ? 'var(--accent-red)' : '#718096';
+                    html += `
+                        <tr style="border-bottom:1px solid var(--border-color);">
+                            <td style="padding:10px;">${role.name}</td>
+                            <td style="text-align:right; padding:10px; font-weight:600;">${formatCurrency(role.salary)}</td>
+                            <td style="text-align:right; padding:10px; font-weight:700; color:${impactColor};">${role.aiImpact}</td>
+                        </tr>
+                    `;
+                });
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+
+            // National Benchmark
+            if (comp.nationalBenchmark) {
+                const nb = comp.nationalBenchmark;
+                html += `
+                    <div class="section-title">National Context</div>
+                    <div class="data-card">
+                        <div style="display:flex; flex-direction:column; gap:12px;">
+                            <div style="display:flex; justify-content:space-between; padding:12px; background:#f0fdf4; border-radius:6px;">
+                                <span style="font-size:12px; color:#166534;">vs. Median US Income</span>
+                                <span style="font-size:18px; font-weight:800; color:var(--accent-green);">${nb.vsMedianIncome.toFixed(1)}x</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; padding:12px; background:#f0fdf4; border-radius:6px;">
+                                <span style="font-size:12px; color:#166534;">vs. Median College Grad</span>
+                                <span style="font-size:18px; font-weight:800; color:var(--accent-green);">${nb.vsMedianCollege.toFixed(1)}x</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px; padding:8px; background:#eff6ff; border-radius:6px; font-size:11px; color:#1e40af;">
+                            💡 This role earns <strong>${((nb.vsMedianIncome - 1) * 100).toFixed(0)}% above</strong> the typical American.
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Historical Purchasing Power
+            if (comp.historicalPurchasing) {
+                const hp = comp.historicalPurchasing;
+                const growth80to24 = ((hp.year2024 - hp.year1980) / hp.year1980 * 100).toFixed(0);
+                html += `
+                    <div class="section-title">Historical Purchasing Power</div>
+                    <div class="data-card">
+                        <p style="font-size:11px; color:#718096; margin-bottom:12px;">Salary adjusted for inflation (2024 dollars):</p>
+                        <div style="display:flex; flex-direction:column; gap:8px;">
+                            <div style="display:flex; justify-content:space-between; padding:8px; background:#f8fafc; border-radius:6px;">
+                                <span style="font-size:11px; color:#718096;">🕰️ 1980</span>
+                                <span style="font-size:14px; font-weight:700;">${formatCurrency(hp.year1980)}</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; padding:8px; background:#f8fafc; border-radius:6px;">
+                                <span style="font-size:11px; color:#718096;">📈 2000</span>
+                                <span style="font-size:14px; font-weight:700;">${formatCurrency(hp.year2000)}</span>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; padding:8px; background:#ecfdf5; border-radius:6px;">
+                                <span style="font-size:11px; color:#166534;">✨ 2024</span>
+                                <span style="font-size:14px; font-weight:700; color:var(--accent-green);">${formatCurrency(hp.year2024)}</span>
+                            </div>
+                        </div>
+                        <div style="margin-top:12px; padding:8px; background:#ecfdf5; border-radius:6px; font-size:11px; color:#065f46;">
+                            📊 Real wage growth: <strong>+${growth80to24}%</strong> over 44 years
+                        </div>
+                    </div>
+                `;
+            }
+
+            return html;
+        }
+
+        function renderQualityTab(data) {
+            if (!data.hidden) return '<p style="color:#a0aec0; padding:20px;">No quality of life data available.</p>';
+            
+            const hidden = data.hidden;
+            let html = '';
+
+            // Work-Life Metrics
+            if (hidden.workLifeMetrics) {
+                const wl = hidden.workLifeMetrics;
+                html += `
+                    <div class="section-title">Work-Life Profile</div>
+                    <div class="data-card">
+                        <div style="padding:12px; background:#f8fafc; border-radius:8px; margin-bottom:12px;">
+                            <div style="font-size:11px; color:#718096; margin-bottom:6px;">⏰ Average Hours/Week</div>
+                            <div style="font-size:24px; font-weight:800; color:#2d3748;">${wl.avgHoursPerWeek}</div>
+                            <div class="progress-bar" style="margin-top:8px; height:6px;">
+                                <div class="progress-fill" style="width:${(wl.avgHoursPerWeek / 60) * 100}%; background:${wl.avgHoursPerWeek > 50 ? '#ef4444' : '#10b981'};"></div>
+                            </div>
+                        </div>
+
+                        <div style="padding:12px; background:#f8fafc; border-radius:8px; margin-bottom:12px;">
+                            <div style="font-size:11px; color:#718096; margin-bottom:6px;">😰 Stress Index</div>
+                            <div style="font-size:24px; font-weight:800; color:#2d3748;">${wl.stressIndex}/10</div>
+                            <div class="progress-bar" style="margin-top:8px; height:6px;">
+                                <div class="progress-fill" style="width:${wl.stressIndex * 10}%; background:linear-gradient(90deg, #10b981, #fbbf24, #ef4444);"></div>
+                            </div>
+                        </div>
+
+                        <div style="padding:12px; background:#f8fafc; border-radius:8px; margin-bottom:12px;">
+                            <div style="font-size:11px; color:#718096; margin-bottom:6px;">🔥 Annual Burnout Rate</div>
+                            <div style="font-size:24px; font-weight:800; color:#ef4444;">${(wl.burnoutRate * 100).toFixed(0)}%</div>
+                        </div>
+
+                        <div style="padding:12px; background:#ecfdf5; border-radius:8px;">
+                            <div style="font-size:11px; color:#166534; margin-bottom:6px;">🏠 Remote Work Eligible</div>
+                            <div style="font-size:24px; font-weight:800; color:var(--accent-green);">${(wl.remoteEligibility * 100).toFixed(0)}%</div>
+                            <div class="progress-bar" style="margin-top:8px; height:6px;">
+                                <div class="progress-fill" style="width:${wl.remoteEligibility * 100}%; background:var(--accent-green);"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Job Satisfaction
+            if (hidden.satisfactionIndex) {
+                const sat = hidden.satisfactionIndex;
+                const satColor = sat > 7 ? '#10b981' : sat > 5 ? '#f59e0b' : '#ef4444';
+                html += `
+                    <div class="section-title">Job Satisfaction</div>
+                    <div class="data-card">
+                        <div style="text-align:center; padding:20px;">
+                            <div style="font-size:48px; font-weight:800; color:${satColor};">${sat}/10</div>
+                            <div class="progress-bar" style="margin-top:12px; height:10px;">
+                                <div class="progress-fill" style="width:${sat * 10}%; background:${satColor};"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Total Compensation Value
+            if (hidden.benefitsValue && data.financial) {
+                const totalComp = data.financial.mean + hidden.benefitsValue;
+                html += `
+                    <div class="section-title">True Compensation Value</div>
+                    <div class="data-card">
+                        <div style="display:flex; justify-content:space-between; padding:10px; background:#f8fafc; border-radius:6px; margin-bottom:8px;">
+                            <span style="font-size:12px; color:#718096;">💵 Cash Salary</span>
+                            <span style="font-size:14px; font-weight:700;">${formatCurrency(data.financial.mean)}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:10px; background:#f8fafc; border-radius:6px; margin-bottom:8px;">
+                            <span style="font-size:12px; color:#718096;">🏥 Benefits Value</span>
+                            <span style="font-size:14px; font-weight:700;">${formatCurrency(hidden.benefitsValue)}</span>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; padding:12px; background:#ecfdf5; border-radius:6px;">
+                            <span style="font-size:12px; color:#166534; font-weight:700;">💰 TOTAL</span>
+                            <span style="font-size:18px; font-weight:800; color:var(--accent-green);">${formatCurrency(totalComp)}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return html;
+        }
+
+        function renderStoriesTab(data) {
+            if (!data.narratives) return '<p style="color:#a0aec0; padding:20px;">No narrative data available.</p>';
+            
+            const narr = data.narratives;
+            let html = '';
+
+            // Case Studies
+            if (narr.caseStudies) {
+                html += `<div class="section-title">Worker Profiles</div>`;
+                narr.caseStudies.forEach(study => {
+                    html += `<div class="case-study">📖 ${study}</div>`;
+                });
+            }
+
+            // Policy Implications
+            if (narr.policyImplications) {
+                html += `
+                    <div class="section-title">Policy Implications</div>
+                    <div class="data-card" style="background:#faf5ff; border-color:#e9d5ff;">
+                        <p style="font-size:12px; line-height:1.6; color:#4c1d95; margin:0;">${narr.policyImplications}</p>
+                    </div>
+                `;
+            }
+
+            // Future Scenarios
+            if (narr.scenarios) {
+                html += `<div class="section-title">Future Scenarios (2036)</div>`;
+                
+                if (narr.scenarios.best) {
+                    html += `
+                        <div class="scenario-box best">
+                            <div class="scenario-title" style="color:#166534;">🌟 BEST CASE</div>
+                            <div class="scenario-text" style="color:#14532d;">${narr.scenarios.best}</div>
+                        </div>
+                    `;
+                }
+                
+                if (narr.scenarios.likely) {
+                    html += `
+                        <div class="scenario-box likely">
+                            <div class="scenario-title" style="color:#1e40af;">📊 MOST LIKELY</div>
+                            <div class="scenario-text" style="color:#1e3a8a;">${narr.scenarios.likely}</div>
+                        </div>
+                    `;
+                }
+                
+                if (narr.scenarios.worst) {
+                    html += `
+                        <div class="scenario-box worst">
+                            <div class="scenario-title" style="color:#991b1b;">⚠️ WORST CASE</div>
+                            <div class="scenario-text" style="color:#7f1d1d;">${narr.scenarios.worst}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            return html;
         }
 
         window.addEventListener('load', initChart);
