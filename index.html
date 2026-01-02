@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Socio-Economic Observatory: Financial, AI & Actuarial Analysis</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg: rgba(255, 255, 255, 0.98);
+            --text-main: #1a202c;
+            --text-sub: #4a5568;
+            --accent-blue: #3182ce;   /* Financial */
+            --accent-green: #38a169;  /* Positive Trend */
+            --accent-red: #e53e3e;    /* Negative Trend */
+            --accent-purple: #805ad5; /* AI */
+            --accent-orange: #dd6b20; /* Demographics */
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* --- Left: Visualization Canvas --- */
+        #viz-panel {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #header {
+            padding: 16px 32px;
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-content h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #2d3748;
+        }
+
+        .header-content .subtitle {
+            margin: 4px 0 0 0;
+            color: var(--text-sub);
+            font-size: 13px;
+        }
+
+        #legend {
+            display: flex;
+            gap: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .legend-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 6px; 
+            color: var(--text-sub); 
+            background: #f7fafc; 
+            padding: 6px 12px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border-color); 
+            transition: all 0.2s;
+        }
+        .legend-item:hover { background: white; border-color: #cbd5e0; }
+        .dot { width: 8px; height: 8px; border-radius: 50%; }
+
+        #chart-container {
+            flex: 1;
+            overflow: auto;
+            background: radial-gradient(circle at center, #ffffff 0%, #f7fafc 100%);
+            cursor: grab;
+            position: relative;
+        }
+        #chart-container:active { cursor: grabbing; }
+
+        /* --- Right: Detail Inspector --- */
+        #inspector-panel {
+            width: 480px; /* Widened for extra detail */
+            background: white;
+            border-left: 1px solid var(--border-color);
+            overflow-y: auto;
+            padding: 0;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            z-index: 20;
+        }
+
+        .inspector-inner {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* --- Inspector Components --- */
+        .panel-header { border-bottom: 2px solid var(--border-color); padding-bottom: 20px; }
+        .role-title { font-size: 26px; font-weight: 800; color: #2d3748; line-height: 1.1; margin: 0; letter-spacing: -0.5px; }
+        .role-meta { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-size: 11px; 
+            color: #718096; 
+            margin-top: 10px; 
+            display: flex; 
+            gap: 15px; 
+        }
+        .meta-tag { background: #edf2f7; padding: 2px 6px; border-radius: 4px; color: #4a5568; }
+        
+        .section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            font-weight: 800;
+            color: #a0aec0;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border-color); }
+        .section-title.fin { color: var(--accent-blue); }
+        .section-title.ai { color: var(--accent-purple); }
+        .section-title.age { color: var(--accent-orange); }
+
+        /* Generic Card Style */
+        .data-card { 
+            background: #fff; 
+            border: 1px solid var(--border-color); 
+            border-radius: 10px; 
+            padding: 16px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Distribution Charts */
+        .dist-chart-container { height: 90px; width: 100%; position: relative; margin-bottom: 12px; }
+        
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .stat-box { display: flex; flex-direction: column; }
+        .stat-label { font-size: 10px; text-transform: uppercase; color: #718096; font-weight: 700; margin-bottom: 2px;}
+        .stat-value { font-size: 15px; font-weight: 700; color: #2d3748; font-feature-settings: "tnum"; }
+        
+        .nuance-text { 
+            font-size: 12px; 
+            color: #4a5568; 
+            font-style: italic; 
+            background: #f8fafc; 
+            padding: 10px; 
+            border-radius: 6px; 
+            margin-top: 12px; 
+            line-height: 1.5; 
+            border-left: 3px solid #cbd5e0; 
+        }
+
+        /* AI Specifics */
+        .ai-card { background: #fbfbfc; }
+        .mech-text { font-size: 13px; line-height: 1.5; color: #2d3748; margin-bottom: 16px; font-weight: 500;}
+        
+        .timeline-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center; }
+        .time-col { background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 4px; transition: transform 0.2s;}
+        .time-col:hover { transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .time-head { font-size: 9px; color: #a0aec0; display: block; margin-bottom: 4px; text-transform: uppercase; font-weight: 700;}
+        .time-val { font-size: 13px; font-weight: 800; display: block; }
+        
+        .pos { color: var(--accent-green); }
+        .neg { color: var(--accent-red); }
+        .neu { color: var(--text-sub); }
+
+        /* Paradox Box */
+        .paradox-box {
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-left: 4px solid #e53e3e;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+        .paradox-title { color: #c53030; font-weight: 800; font-size: 11px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; text-transform: uppercase;}
+        .paradox-text { font-size: 12px; color: #742a2a; line-height: 1.4; }
+
+        /* Age Box */
+        .age-card { border-top: 3px solid var(--accent-orange); }
+
+        /* Empty State */
+        #inspector-empty {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e0;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            padding: 40px;
+        }
+
+        /* --- D3 Interaction --- */
+        .node circle { 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+            stroke: #fff; 
+            stroke-width: 2px; 
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+        .node:hover circle { stroke: #2d3748; stroke-width: 3px; transform: scale(1.2); }
+        .node.selected circle { 
+            stroke: #2d3748; 
+            stroke-width: 6px; 
+            fill: #fff !important; 
+            stroke-dasharray: 4,2; 
+            transform: scale(1.3);
+        }
+        
+        .link { fill: none; stroke-linecap: round; opacity: 0.3; transition: all 0.4s; }
+        .link.highlight { opacity: 0.8; }
+        .link.dim { opacity: 0.05; }
+        .node.dim { opacity: 0.1; }
+
+        .label-main { font-weight: 700; font-size: 12px; fill: #2d3748; text-shadow: 0 1px 0 #fff, 0 -1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff; pointer-events: none;}
+        .label-sub { font-size: 10px; fill: #718096; pointer-events: none;}
+
+        /* Scrollbar polish */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+
+    </style>
+</head>
+<body>
+
+    <div id="viz-panel">
+        <div id="header">
+            <div class="header-content">
+                <h1>US Socio-Economic Observatory</h1>
+                <p class="subtitle">Deep-Dive Analysis: Financial, AI, & Actuarial Age Demographics (2025-2036)</p>
+            </div>
+            <div id="legend">
+                <div class="legend-item"><div class="dot" style="background: #3b82f6;"></div> Dependents</div>
+                <div class="legend-item"><div class="dot" style="background: #8b5cf6;"></div> Institutional</div>
+                <div class="legend-item"><div class="dot" style="background: #10b981;"></div> Workforce</div>
+                <div class="legend-item"><div class="dot" style="background: #f59e0b;"></div> Unemployed</div>
+                <div class="legend-item"><div class="dot" style="background: #6b7280;"></div> NILF</div>
+            </div>
+        </div>
+        <div id="chart-container"></div>
+    </div>
+
+    <div id="inspector-panel">
+        <div id="inspector-empty">
+            <div style="font-size: 40px; margin-bottom: 10px;">📊</div>
+            Select a population node<br>to inspect 3-dimensional data.
+        </div>
+        <div id="inspector-content" style="display:none;">
+            <!-- Content injected via JS -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. THE DATA ENGINE (High Fidelity)
+        // ==========================================
+        const rawData = {
+            name: "US Population (~340.1M)",
+            value: 340.1,
+            category: "root",
+            children: [
+                {
+                    name: "A. Under Age 16",
+                    value: 63.0,
+                    category: "A",
+                    children: [
+                        {
+                            name: "Pre-School (0-4)",
+                            value: 18.4,
+                            category: "A",
+                            financial: { mean: 0, sigma: 0, nuance: "Imputed Replacement Cost: ~$14.65/hr (Childcare Wage)." },
+                            ai: {
+                                mech: "AI Impact via monitoring and automated educational toys.",
+                                t2: "0%", t5: "0%", t10: "Low",
+                                paradox: null
+                            },
+                            age: { mean: 2.5, sigma: 1.4, bracket: "0-4", nuance: "Strict biological gate. 100% of cohort is under 5." }
+                        },
+                        {
+                            name: "School-Age (5-15)",
+                            value: 41.2,
+                            category: "A",
+                            financial: { mean: 0, sigma: 0, nuance: "Human Capital Formation phase. Zero earned income." },
+                            ai: {
+                                mech: "Decoupling of Learning: AI tutoring adapts pace perfectly, but AI writing tools threaten assessment integrity.",
+                                t2: "0%", t5: "-5%", t10: "Chaos",
+                                paradox: { title: "The Assessment Crisis", text: "If AI does the homework, how do we measure learning? Schools may revert to oral exams." }
+                            },
+                            age: { mean: 10.0, sigma: 2.8, bracket: "5-15", nuance: "Compulsory education window." }
+                        },
+                        {
+                            name: "Teens (15)",
+                            value: 3.4,
+                            category: "A",
+                            financial: { mean: 2500, sigma: 1500, p10: 0, p90: 15000, nuance: "Income zero-inflated. Concentrated in Food/Sales/Gig work." },
+                            ai: { mech: "Entry-level jobs held by teens are highest risk for kiosk/robot automation.", t2: "-5%", t5: "-15%", t10: "-30%", paradox: null },
+                            age: { mean: 15.5, sigma: 0.5, bracket: "15-16", nuance: "Transitional cohort entering labor force." }
+                        }
+                    ]
+                },
+                {
+                    name: "B. Inst/Military",
+                    value: 7.6,
+                    category: "B",
+                    children: [
+                        {
+                            name: "Active Duty Military",
+                            value: 1.3,
+                            category: "B",
+                            financial: { mean: 42500, sigma: 4200, p10: 22380, p90: 60000, nuance: "Includes housing/food allowances." },
+                            ai: { mech: "Autonomous Systems: Drone swarms and cyber-warfare replace frontline infantry.", t2: "0%", t5: "-2%", t10: "-10%", paradox: null },
+                            age: { mean: 28.5, sigma: 5.8, bracket: "18-30", nuance: "Engineered Youth. 'Up or out' system truncates at 40. Enlisted μ ≈ 23." }
+                        },
+                        {
+                            name: "Correctional Facilities",
+                            value: 2.0,
+                            category: "B",
+                            financial: { mean: 0, sigma: 0, nuance: "State dependent cost." },
+                            ai: { mech: "Predictive Justice: Risk assessment algorithms. Automated surveillance.", t2: "0%", t5: "0%", t10: "+2%", paradox: null },
+                            age: { mean: 38.2, sigma: 11.5, bracket: "25-54", nuance: "The Missing Men. Prime-age males removed from labor force." }
+                        },
+                        {
+                            name: "Nursing Homes",
+                            value: 4.3,
+                            category: "B",
+                            financial: { mean: 0, sigma: 0, nuance: "High cost center." },
+                            ai: { mech: "Safety Monitoring: Computer vision for fall detection.", t2: "0%", t5: "+5%", t10: "+10%", paradox: null },
+                            age: { mean: 81.4, sigma: 9.3, bracket: "80+", nuance: "The End of the Line. Heavy right skew (Centenarians)." }
+                        }
+                    ]
+                },
+                {
+                    name: "C. Employed",
+                    value: 161.3,
+                    category: "C",
+                    children: [
+                        {
+                            name: "Mgmt & Prof.",
+                            value: 70.7,
+                            category: "C",
+                            children: [
+                                {
+                                    name: "Executives (CEOs)",
+                                    value: 10.2, 
+                                    category: "C",
+                                    financial: { mean: 258900, sigma: 100000, p10: 80000, p90: 500000, nuance: "Pareto Distribution. Capped reporting. Long tail into millions." },
+                                    ai: {
+                                        mech: "Decision Support: AI acts as 'Super-Analyst'. Accountability cannot be automated.",
+                                        t2: "0%", t5: "-2%", t10: "Stable",
+                                        paradox: { title: "The Accountability Wall", text: "AI can make the decision, but humans must serve the jail time if it's wrong." }
+                                    },
+                                    age: { mean: 48.1, sigma: 11.5, bracket: "45-64", nuance: "Quintessential Senior Node. Absence of youth is near absolute." }
+                                },
+                                {
+                                    name: "Software Developers",
+                                    value: 5.4, 
+                                    category: "C",
+                                    financial: { mean: 132000, sigma: 38000, p10: 65000, p90: 195000, nuance: "Driven by geography (Bay Area) and specialization (AI/ML vs Web)." },
+                                    ai: {
+                                        mech: "Hyper-Augmentation: Coding assistants (Copilot) increase productivity 30-50%.",
+                                        t2: "+2%", t5: "+5%", t10: "Boom?",
+                                        paradox: { 
+                                            title: "Jevons vs. Substitution", 
+                                            text: "Does cheaper coding mean we build 10x more software (Jevons) or do we fire 50% of devs (Substitution)?" 
+                                        }
+                                    },
+                                    age: { mean: 42.5, sigma: 9.0, bracket: "35-54", nuance: "Matured Tech Sector. 'Boy genius' is a minority. Seasoned managers dominate." }
+                                },
+                                {
+                                    name: "Engineers (Arch/Eng)",
+                                    value: 3.6,
+                                    category: "C",
+                                    financial: { mean: 99090, sigma: 32900, p10: 51130, p90: 159630, nuance: "Civil: μ $98k. Petroleum: μ $145k." },
+                                    ai: {
+                                        mech: "Generative Design: AI generates optimized options from constraints.",
+                                        t2: "+1%", t5: "+3%", t10: "Gradual",
+                                        paradox: null
+                                    },
+                                    age: { mean: 43.0, sigma: 12.0, bracket: "30-50", nuance: "Requires degree + licensure period." }
+                                },
+                                {
+                                    name: "Legal (Lawyers)",
+                                    value: 1.2,
+                                    category: "C",
+                                    financial: { mean: 163000, sigma: 68000, p10: 62190, p90: 250000, nuance: "Bimodal: Public Def vs Big Law." },
+                                    ai: {
+                                        mech: "Augmentation: AI handles research/review. Courtroom requires human judgment.",
+                                        t2: "0%", t5: "-2%", t10: "Slow",
+                                        paradox: { title: "Hallucination Barrier", text: "Liability concerns prevent rapid adoption. A lawyer citing a fake AI case gets disbarred." }
+                                    },
+                                    age: { mean: 47.5, sigma: 11.0, bracket: "40-60", nuance: "High educational barrier pushes entry age to late 20s." }
+                                },
+                                {
+                                    name: "Education Admin",
+                                    value: 9.6,
+                                    category: "C",
+                                    financial: { mean: 64500, sigma: 22900, p10: 30670, p90: 106130, nuance: "Professors: μ $95k." },
+                                    ai: {
+                                        mech: "Transformation: 'Lecturer' obsolete; 'Facilitator' essential.",
+                                        t2: "0%", t5: "-2%", t10: "Burnout",
+                                        paradox: null
+                                    },
+                                    age: { mean: 46.2, sigma: 10.5, bracket: "45+", nuance: "Top-Heavy. Requires tenure (teaching first). Looming retirement wave." }
+                                }
+                            ]
+                        },
+                        {
+                            name: "Service Occs",
+                            value: 28.5,
+                            category: "C",
+                            children: [
+                                {
+                                    name: "Food Prep",
+                                    value: 8.1,
+                                    category: "C",
+                                    financial: { mean: 34490, sigma: 7600, p10: 22160, p90: 47390, nuance: "Highly compressed. Fast food (~$28k) vs Exec Chefs." },
+                                    ai: {
+                                        mech: "Kiosks & Robotics: Ordering automated; 'Flippy' robots for repetitive frying.",
+                                        t2: "-1%", t5: "-5%", t10: "Attrition",
+                                        paradox: null
+                                    },
+                                    age: { mean: 29.8, sigma: 10.4, bracket: "16-24", nuance: "Lowest Mean Age. Primary domain of the 'Frictional' workforce." }
+                                },
+                                {
+                                    name: "Protective Service",
+                                    value: 3.0,
+                                    category: "C",
+                                    financial: { mean: 57710, sigma: 21300, p10: 29890, p90: 100170, nuance: "Police (high/pension) vs Private Guards (low)." },
+                                    ai: {
+                                        mech: "Surveillance vs. Action: AI cameras replace static guards.",
+                                        t2: "0%", t5: "-2%", t10: "Mixed",
+                                        paradox: null
+                                    },
+                                    age: { mean: 40.5, sigma: 9.2, bracket: "25-54", nuance: "Prime-Age Male. Lacks the teenage spike and geriatric tail." }
+                                }
+                            ]
+                        },
+                        {
+                            name: "Sales & Office",
+                            value: 29.5,
+                            category: "C",
+                            children: [
+                                {
+                                    name: "Retail Sales",
+                                    value: 13.8,
+                                    category: "C",
+                                    financial: { mean: 53280, sigma: 21900, p10: 25790, p90: 98040, nuance: "Retail (~$30k) vs Tech/Wholesale (~$90k)." },
+                                    ai: {
+                                        mech: "Self-Service: 'Just Walk Out' (Computer Vision) eliminates checkout.",
+                                        t2: "-2%", t5: "-8%", t10: "Reduct.",
+                                        paradox: "Shadow Work: The labor of checkout is transferred from the paid employee to the unpaid customer."
+                                    },
+                                    age: { mean: 37.5, sigma: 14.8, bracket: "16-24", nuance: "Youth-Heavy. 16-24 cohort is ~27% of workforce. High turnover." }
+                                },
+                                {
+                                    name: "Office Admin",
+                                    value: 15.7,
+                                    category: "C",
+                                    financial: { mean: 47940, sigma: 12500, p10: 30240, p90: 71440, nuance: "Largest group in US. High AI automation risk." },
+                                    ai: {
+                                        mech: "Direct Substitution: LLMs/Voice Agents perform core retrieval/routing at zero cost.",
+                                        t2: "-2%", t5: "-12%", t10: "Collapse",
+                                        paradox: { title: "The Paperwork Cliff", text: "There is no infinite demand for paperwork. If AI does it, the job simply disappears." }
+                                    },
+                                    age: { mean: 49.1, sigma: 13.0, bracket: "50+", nuance: "'Sunset' Node. Demographic cliff: retiring cohort not being replaced." }
+                                }
+                            ]
+                        },
+                        {
+                            name: "Blue Collar",
+                            value: 35.2,
+                            category: "C",
+                            children: [
+                                {
+                                    name: "Construction",
+                                    value: 8.0,
+                                    category: "C",
+                                    financial: { mean: 61500, sigma: 18600, p10: 36380, p90: 97700, nuance: "Electricians/Plumbers: μ $65k+." },
+                                    ai: {
+                                        mech: "Low Impact: Unstructured/chaotic sites prevent robotic adoption.",
+                                        t2: "+2%", t5: "+4%", t10: "Growth",
+                                        paradox: "Chaos Premium: The messier the environment, the safer the job."
+                                    },
+                                    age: { mean: 41.6, sigma: 13.1, bracket: "25-54", nuance: "Flat-Topped. Safety Floor (few <18) and Physical Ceiling (few >65)." }
+                                },
+                                {
+                                    name: "Transport (Logistics)",
+                                    value: 11.2,
+                                    category: "C",
+                                    financial: { mean: 46500, sigma: 11600, p10: 29270, p90: 67510, nuance: "Pilots (High) vs Uber/Truckers (Low)." },
+                                    ai: {
+                                        mech: "High Risk: AVs (Level 4) and warehouse robotics.",
+                                        t2: "+2%", t5: "0%", t10: "Risk",
+                                        paradox: null
+                                    },
+                                    age: { mean: 36.1, sigma: 11.0, bracket: "20-34", nuance: "The Exception. Driven by e-commerce. Young, expanding node." }
+                                },
+                                {
+                                    name: "Production (Factory)",
+                                    value: 8.8,
+                                    category: "C",
+                                    financial: { mean: 47620, sigma: 12100, p10: 30550, p90: 70370, nuance: "Auto Mfg (~$55k) vs Slaughtering (~$35k)." },
+                                    ai: {
+                                        mech: "Mature Automation: 'Cobots' and vision inspection.",
+                                        t2: "0%", t5: "-2%", t10: "Reshoring",
+                                        paradox: null
+                                    },
+                                    age: { mean: 44.8, sigma: 13.9, bracket: "45-64", nuance: "Inverted Pyramid. 20-24 cohort is dangerously thin vs 45-64." }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: "D. Unemployed",
+                    value: 7.6,
+                    category: "D",
+                    children: [
+                        {
+                            name: "Frictional (<5 wks)",
+                            value: 5.5,
+                            category: "D",
+                            financial: { mean: 24335, sigma: 8000, p10: 12000, p90: 45000, nuance: "State Benefits vary." },
+                            ai: { mech: "AI Matching: Algorithms optimize job finding.", t2: "Faster", t5: "Faster", t10: "UBI?", paradox: null },
+                            age: { mean: 33.2, sigma: 14.1, bracket: "16-24", nuance: "The Churn of Youth. High velocity. Sign of fluidity, not distress." }
+                        },
+                        {
+                            name: "Structural (27+ wks)",
+                            value: 1.9,
+                            category: "D",
+                            financial: { mean: 0, sigma: 0, nuance: "Benefits exhausted." },
+                            ai: { mech: "Skill Mismatch: Skills obsolete.", t2: "Growing", t5: "Growing", t10: "Permanent", paradox: null },
+                            age: { mean: 43.8, sigma: 14.9, bracket: "45-64", nuance: "The Trap of Age. 'Job Losers' are older than 'Job Leavers'." }
+                        }
+                    ]
+                },
+                {
+                    name: "E. NILF",
+                    value: 103.2,
+                    category: "E",
+                    children: [
+                        {
+                            name: "Retirees",
+                            value: 49.0,
+                            category: "E",
+                            financial: { mean: 22884, sigma: 7500, p10: 12948, p90: 42000, nuance: "Social Security only." },
+                            ai: {
+                                mech: "Extension: AI/AgeTech ('Aging in Place').",
+                                t2: "0%", t5: "+2%", t10: "Active",
+                                paradox: "Silver Economy: AI enables seniors to work longer."
+                            },
+                            age: { mean: 74.5, sigma: 8.2, bracket: "65+", nuance: "The Silver Reserve. Left-censored at 62. Homogenous experience." }
+                        },
+                        {
+                            name: "Students",
+                            value: 14.4,
+                            category: "E",
+                            financial: { mean: 0, sigma: 0, nuance: "Negative Income (Debt)." },
+                            ai: { mech: "Skill Obsolescence.", t2: "Crisis", t5: "Pivot", t10: "Hybrid", paradox: null },
+                            age: { mean: 20.4, sigma: 3.1, bracket: "16-24", nuance: "Strictly Gated. Lowest sigma. Drop-off feeds Frictional Unemployment." }
+                        },
+                        {
+                            name: "Homemakers",
+                            value: 22.0,
+                            category: "E",
+                            financial: { mean: 184820, sigma: 45000, nuance: "Imputed Value." },
+                            ai: { mech: "Logistics Automation.", t2: "0%", t5: "-2%", t10: "Assist", paradox: null },
+                            age: { mean: 38.4, sigma: 11.2, bracket: "25-44", nuance: "The Care Gap. Expanding Sigma due to 'Sandwich Generation' elder care." }
+                        },
+                        {
+                            name: "Disabled",
+                            value: 12.0,
+                            category: "E",
+                            financial: { mean: 18444, sigma: 5000, p10: 9600, p90: 45864, nuance: "SSDI." },
+                            ai: null,
+                            age: { mean: 56.8, sigma: 15.6, bracket: "50-64", nuance: "Pre-Retirement Holding Tank for those physically compromised." }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const colorMap = {
+            "root": "#2d3748",
+            "A": "#3b82f6", "B": "#8b5cf6", "C": "#10b981", "D": "#f59e0b", "E": "#6b7280"
+        };
+
+        // ==========================================
+        // 2. MATH UTILS (Distributions)
+        // ==========================================
+        function getLogNormalPoints(mean, stdDev, width, height) {
+            if (!mean || mean <= 0 || !stdDev) return null;
+            const varSq = Math.pow(stdDev, 2);
+            const meanSq = Math.pow(mean, 2);
+            const sigma = Math.sqrt(Math.log(1 + (varSq / meanSq)));
+            const mu = Math.log(mean) - 0.5 * Math.pow(sigma, 2);
+            const xMin = 0; const xMax = mean + 3.5 * stdDev; 
+            const points = []; const step = (xMax - xMin) / 80;
+
+            const pdf = (x) => {
+                if (x <= 0) return 0;
+                const coef = 1 / (x * sigma * Math.sqrt(2 * Math.PI));
+                const expon = -Math.pow(Math.log(x) - mu, 2) / (2 * Math.pow(sigma, 2));
+                return coef * Math.exp(expon);
+            };
+
+            for(let x = xMin; x <= xMax; x += step) {
+                let val = (x === 0) ? 0 : pdf(x);
+                points.push([x, val]);
+            }
+            const maxY = d3.max(points, p => p[1]);
+            const pathData = points.map(p => {
+                const xPx = (p[0] / xMax) * width;
+                const yPx = height - (p[1] / maxY) * height * 0.9;
+                return `${xPx},${yPx}`;
+            });
+            return {
+                path: `M0,${height} L${pathData.join(" L")} L${width},${height} Z`,
+                linePath: `M0,${height} L${pathData.join(" L")}`,
+                xScale: (val) => (val / xMax) * width
+            };
+        }
+
+        // Standard Normal for Age
+        function getNormalPoints(mean, stdDev, width, height) {
+            if (!mean || !stdDev) return null;
+            const xMin = Math.max(0, mean - 3 * stdDev);
+            const xMax = mean + 3 * stdDev;
+            const points = [];
+            const step = (xMax - xMin) / 80;
+
+            const pdf = (x) => {
+                const coef = 1 / (stdDev * Math.sqrt(2 * Math.PI));
+                const expon = -Math.pow(x - mean, 2) / (2 * Math.pow(stdDev, 2));
+                return coef * Math.exp(expon);
+            };
+
+            for(let x = xMin; x <= xMax; x += step) {
+                points.push([x, pdf(x)]);
+            }
+            const maxY = d3.max(points, p => p[1]);
+            const pathData = points.map(p => {
+                const xPx = ((p[0] - xMin) / (xMax - xMin)) * width;
+                const yPx = height - (p[1] / maxY) * height * 0.9;
+                return `${xPx},${yPx}`;
+            });
+
+            return {
+                path: `M0,${height} L${pathData.join(" L")} L${width},${height} Z`,
+                linePath: `M0,${height} L${pathData.join(" L")}`,
+                xScale: (val) => ((val - xMin) / (xMax - xMin)) * width,
+                xMin, xMax
+            };
+        }
+
+        const formatCurrency = d3.format("$,.0f");
+
+        // ==========================================
+        // 3. D3 VIZ ENGINE
+        // ==========================================
+        function initChart() {
+            const container = document.getElementById("chart-container");
+            const width = container.clientWidth;
+            const root = d3.hierarchy(rawData);
+            
+            const leafCount = root.leaves().length;
+            const nodeSpacing = 50;
+            const height = Math.max(container.clientHeight, leafCount * nodeSpacing + 100);
+            const levels = 4; const layerWidth = 320; 
+            const chartWidth = Math.max(width, levels * layerWidth);
+
+            d3.select("#chart-container").selectAll("*").remove();
+
+            const svg = d3.select("#chart-container")
+                .append("svg")
+                .attr("width", chartWidth)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(80, 40)`);
+
+            const tree = d3.tree().size([height - 80, chartWidth - 300]);
+            const treeData = tree(root);
+
+            const maxVal = root.data.value;
+            const thickness = d3.scaleLinear().domain([0, maxVal]).range([1, 35]);
+
+            const links = svg.selectAll(".link")
+                .data(treeData.links())
+                .enter().append("path")
+                .attr("class", "link")
+                .attr("d", d3.linkHorizontal().x(d => d.y).y(d => d.x))
+                .style("stroke", d => colorMap[d.target.data.category] || "#ccc")
+                .style("stroke-width", d => thickness(d.target.data.value));
+
+            const nodes = svg.selectAll(".node")
+                .data(treeData.descendants())
+                .enter().append("g")
+                .attr("class", "node")
+                .attr("id", d => "node-" + d.data.name.replace(/\s+/g, '').replace(/[^a-zA-Z]/g, ''))
+                .attr("transform", d => `translate(${d.y},${d.x})`);
+
+            nodes.append("circle")
+                .attr("r", 6)
+                .style("fill", d => colorMap[d.data.category] || "#999");
+
+            nodes.append("text")
+                .attr("dy", -10)
+                .attr("x", d => d.children ? -10 : 10)
+                .style("text-anchor", d => d.children ? "end" : "start")
+                .text(d => d.data.name)
+                .attr("class", "label-main");
+
+            nodes.append("text")
+                .attr("dy", 12)
+                .attr("x", d => d.children ? -10 : 10)
+                .style("text-anchor", d => d.children ? "end" : "start")
+                .text(d => d.data.value ? `${d.data.value}M` : "")
+                .attr("class", "label-sub");
+
+            // --- INTERACTION ---
+            nodes.on("click", (e, d) => {
+                selectNode(d, d3.select(e.currentTarget));
+            });
+            
+            svg.on("click", (e) => {
+                if(e.target.tagName === 'svg') {
+                    resetSelection();
+                }
+            });
+
+            // Auto-Select "Software Developers" on load
+            setTimeout(() => {
+                const targetNode = nodes.filter(d => d.data.name === "Software Developers").node();
+                if(targetNode) {
+                    const d3Node = d3.select(targetNode);
+                    selectNode(d3Node.datum(), d3Node);
+                }
+            }, 500);
+        }
+
+        function selectNode(d, element) {
+            d3.selectAll(".node").classed("selected", false);
+            element.classed("selected", true);
+            const ancestors = new Set(d.ancestors());
+            d3.selectAll(".node").classed("dim", n => !ancestors.has(n));
+            d3.selectAll(".link").classed("dim", l => !ancestors.has(l.target));
+            populateInspector(d.data);
+        }
+
+        function resetSelection() {
+            d3.selectAll(".node").classed("selected", false).classed("dim", false);
+            d3.selectAll(".link").classed("dim", false);
+            document.getElementById("inspector-content").style.display = "none";
+            document.getElementById("inspector-empty").style.display = "flex";
+        }
+
+        // ==========================================
+        // 4. INSPECTOR PANEL LOGIC
+        // ==========================================
+        function populateInspector(data) {
+            const panel = document.getElementById("inspector-content");
+            const empty = document.getElementById("inspector-empty");
+            empty.style.display = "none";
+            panel.style.display = "block";
+
+            let html = `
+                <div class="inspector-inner">
+                    <div class="panel-header">
+                        <h2 class="role-title">${data.name}</h2>
+                        <span class="role-meta">
+                            <span class="meta-tag">POP: ${data.value}M</span>
+                            <span class="meta-tag">CAT: ${data.category}</span>
+                        </span>
+                    </div>
+            `;
+
+            // --- 1. Actuarial Age Section ---
+            if (data.age && data.age.mean > 0) {
+                const age = data.age;
+                const w = 400, h = 90;
+                const graph = getNormalPoints(age.mean, age.sigma, w, h);
+                let graphSVG = "";
+                if (graph) {
+                    const xMean = graph.xScale(age.mean);
+                    graphSVG = `
+                        <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}">
+                            <path d="${graph.path}" fill="#fff7ed" stroke="none" />
+                            <path d="${graph.linePath}" fill="none" stroke="var(--accent-orange)" stroke-width="2" />
+                            <line x1="${xMean}" y1="0" x2="${xMean}" y2="${h}" stroke="var(--accent-orange)" stroke-width="1" stroke-dasharray="4,2"/>
+                            <text x="${xMean+5}" y="15" fill="var(--accent-orange)" font-size="10" font-weight="bold">μ ${age.mean}</text>
+                            
+                            <text x="5" y="${h-5}" fill="#a0aec0" font-size="9">${Math.round(graph.xMin)}</text>
+                            <text x="${w-20}" y="${h-5}" fill="#a0aec0" font-size="9">${Math.round(graph.xMax)}</text>
+                        </svg>
+                    `;
+                }
+
+                html += `
+                    <div class="section-title age">Actuarial Age Analysis</div>
+                    <div class="data-card age-card">
+                        <div class="dist-chart-container">${graphSVG}</div>
+                        <div class="stat-grid">
+                            <div class="stat-box">
+                                <span class="stat-label">Mean Age (μ)</span>
+                                <span class="stat-value" style="color:var(--accent-orange)">${age.mean} yrs</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Sigma (σ)</span>
+                                <span class="stat-value">±${age.sigma} yrs</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Primary Bracket</span>
+                                <span class="stat-value">${age.bracket}</span>
+                            </div>
+                        </div>
+                        <div class="nuance-text" style="border-color:var(--accent-orange)">${age.nuance}</div>
+                    </div>
+                `;
+            }
+
+            // --- 2. Financial Section ---
+            if (data.financial && data.financial.mean > 0) {
+                const fin = data.financial;
+                const w = 400, h = 90;
+                const graph = getLogNormalPoints(fin.mean, fin.sigma, w, h);
+                let graphSVG = "";
+                if(graph) {
+                    const xMean = graph.xScale(fin.mean);
+                    graphSVG = `
+                        <svg width="100%" height="100%" viewBox="0 0 ${w} ${h}">
+                            <path d="${graph.path}" fill="#ebf8ff" stroke="none" />
+                            <path d="${graph.linePath}" fill="none" stroke="var(--accent-blue)" stroke-width="2" />
+                            <line x1="${xMean}" y1="0" x2="${xMean}" y2="${h}" stroke="var(--accent-blue)" stroke-width="1" stroke-dasharray="4,2"/>
+                            <text x="${xMean+5}" y="15" fill="var(--accent-blue)" font-size="10" font-weight="bold">AVG</text>
+                        </svg>
+                    `;
+                }
+
+                html += `
+                    <div class="section-title fin">Financial Distribution</div>
+                    <div class="data-card">
+                        <div class="dist-chart-container">${graphSVG}</div>
+                        <div class="stat-grid">
+                            <div class="stat-box">
+                                <span class="stat-label">Avg Income</span>
+                                <span class="stat-value" style="color:var(--accent-blue)">${formatCurrency(fin.mean)}</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Variance</span>
+                                <span class="stat-value">±${formatCurrency(fin.sigma)}</span>
+                            </div>
+                        </div>
+                        <div class="nuance-text" style="border-color:var(--accent-blue)">${fin.nuance}</div>
+                    </div>
+                `;
+            }
+
+            // --- 3. AI Forecast Section ---
+            if (data.ai) {
+                const ai = data.ai;
+                const getTrendClass = (v) => {
+                    if(v.includes("+") || v === "Faster") return "pos";
+                    if(v.includes("-") || v === "Crisis") return "neg";
+                    return "neu";
+                };
+
+                html += `
+                    <div class="section-title ai">AI Impact Horizon (2026-36)</div>
+                    <div class="data-card ai-card">
+                        <div class="mech-text"><strong>Mechanism:</strong> ${ai.mech}</div>
+                        <div class="timeline-grid">
+                            <div class="time-col">
+                                <span class="time-head">2-Year</span>
+                                <span class="time-val ${getTrendClass(ai.t2)}">${ai.t2}</span>
+                            </div>
+                            <div class="time-col">
+                                <span class="time-head">5-Year</span>
+                                <span class="time-val ${getTrendClass(ai.t5)}">${ai.t5}</span>
+                            </div>
+                            <div class="time-col">
+                                <span class="time-head">10-Year</span>
+                                <span class="time-val ${getTrendClass(ai.t10)}">${ai.t10}</span>
+                            </div>
+                        </div>
+                        ${ai.paradox ? `
+                        <div class="paradox-box">
+                            <div class="paradox-title">⚠️ Economic Paradox</div>
+                            <div class="paradox-text">${ai.paradox.title ? '<strong>' + ai.paradox.title + ':</strong> ' : ''}${ai.paradox.text || ai.paradox}</div>
+                        </div>` : ''}
+                    </div>
+                `;
+            }
+
+            html += `</div>`;
+            panel.innerHTML = html;
+        }
+
+        window.addEventListener('load', initChart);
+        window.addEventListener('resize', () => { setTimeout(initChart, 200); });
+
+    </script>
+</body>
+</html>
