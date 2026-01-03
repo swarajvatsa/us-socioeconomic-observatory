@@ -1262,6 +1262,27 @@
                 .text(d => d.data.value ? `${d.data.value}M` : "")
                 .attr("class", "label-sub");
 
+            // Add paradox name label (third line) for leaf nodes with paradoxes
+            nodes.append("text")
+                .attr("dy", 26)
+                .attr("x", d => d.children ? -10 : 10)
+                .style("text-anchor", d => d.children ? "end" : "start")
+                .style("font-size", "9px")
+                .style("fill", "#666666")
+                .style("font-style", "italic")
+                .style("pointer-events", "none")
+                .text(d => {
+                    const isLeaf = !d.children || d.children.length === 0;
+                    if (isLeaf && d.data.ai && d.data.ai.paradox) {
+                        if (typeof d.data.ai.paradox === 'string') {
+                            return d.data.ai.paradox.substring(0, 30) + '...';
+                        } else if (d.data.ai.paradox.title) {
+                            return d.data.ai.paradox.title;
+                        }
+                    }
+                    return "";
+                });
+
             // --- INTERACTION ---
             nodes.on("click", (e, d) => {
                 selectNode(d, d3.select(e.currentTarget));
