@@ -2932,6 +2932,49 @@
         const formatCurrency = d3.format("$,.0f");
 
         // ==========================================
+        // TOTAL INCOME CALCULATION (for thickness)
+        // ==========================================
+        function calculateTotalIncome(node) {
+            // Leaf node: calculate directly from population × mean income
+            if (!node.children || node.children.length === 0) {
+                const population = node.data.value || 0; // in millions
+                const meanIncome = (node.data.financial && node.data.financial.mean) || 0;
+                const totalIncome = population * meanIncome; // in $ millions
+                node.totalIncome = totalIncome;
+                return totalIncome;
+            }
+            
+            // Parent node: sum all children's total income
+            let sum = 0;
+            node.children.forEach(child => {
+                sum += calculateTotalIncome(child);
+            });
+            node.totalIncome = sum;
+            return sum;
+        }
+
+        function applyThicknessScale(root, minThickness = 8, maxThickness = 150) {
+            // Find max total income across all nodes
+            let maxIncome = 0;
+            root.each(node => {
+                if (node.totalIncome > maxIncome) {
+                    maxIncome = node.totalIncome;
+                }
+            });
+
+            // Create scale: [0, maxIncome] → [minThickness, maxThickness]
+            const thicknessScale = d3.scaleLinear()
+                .domain([0, maxIncome])
+                .range([minThickness, maxThickness]);
+
+            // Apply to all nodes
+            root.each(node => {
+                // Ensure minimum thickness even for zero income
+                node.calculatedThickness = Math.max(minThickness, thicknessScale(node.totalIncome || 0));
+            });
+        }
+
+        // ==========================================
         // AI IMPACT SCORING
         // ==========================================
         function getAIImpactScore(node) {
@@ -2973,6 +3016,9 @@
             const width = container.clientWidth;
             const root = d3.hierarchy(rawData);
             
+            // Calculate total income for all nodes
+            calculateTotalIncome(root);
+            
             const leafCount = root.leaves().length;
             const nodeSpacing = 50;
             const height = Math.max(container.clientHeight, leafCount * nodeSpacing + 100);
@@ -2991,8 +3037,10 @@
             const tree = d3.tree().size([height - 80, chartWidth - 400]);
             const treeData = tree(root);
 
+            // Apply thickness scale based on total income
+            applyThicknessScale(treeData);
+
             const maxVal = root.data.value;
-            const thickness = d3.scaleLinear().domain([0, maxVal]).range([15, 150]);
 
             const colorMap = {
                 "root": "#ffffff",
@@ -3018,7 +3066,7 @@
                     // For parent nodes, use category color
                     return colorMap[d.target.data.category] || "#888";
                 })
-                .style("stroke-width", d => thickness(d.target.data.value));
+                .style("stroke-width", d => d.target.calculatedThickness || 8);
 
             const nodes = svg.selectAll(".node")
                 .data(treeData.descendants())
