@@ -615,8 +615,8 @@
                             category: "C",
                             children: [
                                 {
-                                    name: "Executives (CEOs)",
-                                    value: 10.2, 
+                                    name: "Chief Executives",
+                                    value: 1.7, 
                                     category: "C",
                                     financial: { mean: 258900, sigma: 100000, p10: 80000, p90: 500000, nuance: "Pareto Distribution. Capped reporting. Long tail into millions." },
                                     ai: {
@@ -625,6 +625,31 @@
                                         paradox: { title: "The Accountability Wall", text: "AI can make the decision, but humans must serve the jail time if it's wrong." }
                                     },
                                     age: { mean: 48.1, sigma: 11.5, bracket: "45-64", nuance: "Quintessential Senior Node. Absence of youth is near absolute." }
+                                },
+                                {
+                                    name: "Other Specialized Managers",
+                                    value: 8.5,
+                                    category: "C",
+                                    financial: { 
+                                        mean: 72000, 
+                                        sigma: 28000, 
+                                        p10: 42000, 
+                                        p90: 115000, 
+                                        nuance: "Marketing/sales managers, food service managers, property managers, healthcare facility managers, farm managers, and other industry-specific management roles not elsewhere classified. Weighted average across diverse specialties."
+                                    },
+                                    ai: {
+                                        mech: "Mixed Impact: Varies by specialty. Marketing automation (high risk), food service management (low risk), property management (moderate).",
+                                        t2: "0%", 
+                                        t5: "-3%", 
+                                        t10: "-5%",
+                                        paradox: null
+                                    },
+                                    age: { 
+                                        mean: 43.0, 
+                                        sigma: 12.5, 
+                                        bracket: "32-55", 
+                                        nuance: "Broad aggregated category. Marketing managers younger (~38), food service mid-range (~42), property managers older (~46). Weighted average across all specialties."
+                                    }
                                 },
                                 {
                                     name: "Accountants",
