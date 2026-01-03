@@ -2936,10 +2936,16 @@
         // ==========================================
         function calculateTotalIncome(node) {
             // Leaf node: calculate directly from population × mean income
+            // BUT only for Category C (Employed) - exclude A, B, D, E
             if (!node.children || node.children.length === 0) {
                 const population = node.data.value || 0; // in millions
                 const meanIncome = (node.data.financial && node.data.financial.mean) || 0;
-                const totalIncome = population * meanIncome; // in $ millions
+                
+                // Only count actual employment income (Category C)
+                // Exclude: A (Under 16), B (Institutional), D (Unemployed), E (NILF)
+                const isEmployed = node.data.category === 'C';
+                const totalIncome = isEmployed ? (population * meanIncome) : 0;
+                
                 node.totalIncome = totalIncome;
                 return totalIncome;
             }
