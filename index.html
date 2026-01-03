@@ -741,13 +741,176 @@
                                     name: "Engineers (Arch/Eng)",
                                     value: 3.6,
                                     category: "C",
-                                    financial: { mean: 99090, sigma: 32900, p10: 51130, p90: 159630, nuance: "Civil: μ $98k. Petroleum: μ $145k." },
-                                    ai: {
-                                        mech: "Generative Design: AI generates optimized options from constraints.",
-                                        t2: "+1%", t5: "+3%", t10: "Gradual",
-                                        paradox: null
-                                    },
-                                    age: { mean: 43.0, sigma: 12.0, bracket: "30-50", nuance: "Requires degree + licensure period." }
+                                    children: [
+                                        {
+                                            name: "Civil Engineers",
+                                            value: 0.33,
+                                            category: "C",
+                                            financial: {
+                                                mean: 95400,
+                                                sigma: 28000,
+                                                p10: 62000,
+                                                p90: 135000,
+                                                nuance: "Public sector (DOT, municipalities) pays less ($85k) than private consulting firms ($105k). PE license adds 15% premium."
+                                            },
+                                            ai: {
+                                                mech: "BIM & Generative Design: AI optimizes structural load calculations and generates design alternatives.",
+                                                mechDetail: "Building Information Modeling (BIM) with AI generates optimized structural designs from constraints (load, cost, materials). AI simulates stress tests, calculates optimal rebar placement, and suggests cost-saving alternatives. However, site-specific factors (soil conditions, local regulations, client preferences) require human judgment. The role shifts from 'calculating by hand' to 'evaluating AI proposals.' Bridges, buildings, and roads still need PE-stamped approval.",
+                                                t2: "+1%",
+                                                t5: "+3%",
+                                                t10: "+5%",
+                                                paradox: {
+                                                    title: "The Liability Shield",
+                                                    text: "No client will accept an AI-designed bridge without a licensed PE's signature. Regulation protects the profession."
+                                                }
+                                            },
+                                            age: {
+                                                mean: 44.0,
+                                                sigma: 12.0,
+                                                bracket: "32-56",
+                                                nuance: "4yr degree + 4yr experience for PE license. Entry at ~28. Public sector careers extend into 60s. Peak productivity 40-55."
+                                            }
+                                        },
+                                        {
+                                            name: "Mechanical Engineers",
+                                            value: 0.31,
+                                            category: "C",
+                                            financial: {
+                                                mean: 98200,
+                                                sigma: 30000,
+                                                p10: 64000,
+                                                p90: 140000,
+                                                nuance: "Automotive ($95k) vs Aerospace ($110k) vs HVAC design ($85k). Manufacturing hubs (Michigan, Texas) pay premiums."
+                                            },
+                                            ai: {
+                                                mech: "CAD Evolution: AI-powered CAD suggests design improvements for thermal efficiency, weight reduction.",
+                                                mechDetail: "Next-generation CAD tools use AI to optimize mechanical designs - suggesting lighter materials, better heat dissipation, or cost-saving manufacturing methods. Generative design creates hundreds of options from engineering constraints. However, manufacturing feasibility, material availability, and client aesthetic preferences require human evaluation. The profession transforms from 'drafting' to 'design validation and client communication.'",
+                                                t2: "+1%",
+                                                t5: "+2%",
+                                                t10: "+4%",
+                                                paradox: null
+                                            },
+                                            age: {
+                                                mean: 43.0,
+                                                sigma: 12.0,
+                                                bracket: "30-55",
+                                                nuance: "Similar to Civil. PE optional but valuable. Manufacturing engineers slightly younger (more entry-level roles). R&D engineers older (requires experience)."
+                                            }
+                                        },
+                                        {
+                                            name: "Electrical Engineers",
+                                            value: 0.34,
+                                            category: "C",
+                                            financial: {
+                                                mean: 110500,
+                                                sigma: 32000,
+                                                p10: 72000,
+                                                p90: 155000,
+                                                nuance: "Power systems ($105k) vs Semiconductor design ($125k) vs Controls ($95k). Silicon Valley premium for chip design."
+                                            },
+                                            ai: {
+                                                mech: "Circuit Optimization: AI designs optimal PCB layouts, simulates signal integrity.",
+                                                mechDetail: "AI tools can automatically route PCB traces, optimize power distribution, and simulate electromagnetic interference. For semiconductor design, AI accelerates chip verification and suggests layout improvements. However, system-level architecture (deciding what circuits to build, not how to route them) remains human. The bottleneck shifts from 'layout' to 'specification' - defining requirements and validating AI outputs.",
+                                                t2: "+2%",
+                                                t5: "+4%",
+                                                t10: "+6%",
+                                                paradox: {
+                                                    title: "The Complexity Explosion",
+                                                    text: "As AI makes circuit design easier, engineers design more complex systems (IoT, edge computing), increasing total employment."
+                                                }
+                                            },
+                                            age: {
+                                                mean: 42.0,
+                                                sigma: 11.0,
+                                                bracket: "30-53",
+                                                nuance: "Chip design attracts younger talent (cutting-edge tech). Power systems engineers older (experience critical for safety). Bimodal distribution."
+                                            }
+                                        },
+                                        {
+                                            name: "Chemical & Materials Engineers",
+                                            value: 0.62,
+                                            category: "C",
+                                            financial: {
+                                                mean: 108300,
+                                                sigma: 35000,
+                                                p10: 68000,
+                                                p90: 160000,
+                                                nuance: "Pharma/Biotech ($120k) vs Petrochemical ($105k) vs Food processing ($85k). PhD premium for R&D roles."
+                                            },
+                                            ai: {
+                                                mech: "Materials Discovery: AI predicts material properties, accelerating R&D by 10x.",
+                                                mechDetail: "AI tools like Materials Project and machine learning models predict material properties (strength, conductivity, thermal resistance) without physical synthesis. This compresses years of trial-and-error into weeks. However, scaling from 'lab discovery' to 'industrial production' requires process engineering expertise that AI cannot replicate. Safety regulations in chemical plants demand human oversight. The role becomes 'materials curator' - selecting AI-discovered candidates for real-world testing.",
+                                                t2: "+2%",
+                                                t5: "+5%",
+                                                t10: "+8%",
+                                                paradox: {
+                                                    title: "Discovery Bottleneck Shift",
+                                                    text: "AI accelerates discovery, shifting bottleneck to 'production engineering' - scaling lab results to factory scale."
+                                                }
+                                            },
+                                            age: {
+                                                mean: 41.0,
+                                                sigma: 13.0,
+                                                bracket: "28-54",
+                                                nuance: "PhD holders (materials R&D) enter late (~30) but have long careers. Process engineers (BS only) enter early (~24). Wide spread."
+                                            }
+                                        },
+                                        {
+                                            name: "Petroleum & Mining Engineers",
+                                            value: 0.04,
+                                            category: "C",
+                                            financial: {
+                                                mean: 145000,
+                                                sigma: 50000,
+                                                p10: 90000,
+                                                p90: 210000,
+                                                nuance: "Highest-paid engineering discipline. Cyclical with oil prices. Offshore/Alaska premium (+30%). Declining field."
+                                            },
+                                            ai: {
+                                                mech: "Predictive Geology: AI analyzes seismic data to predict oil/mineral deposits.",
+                                                mechDetail: "AI and machine learning analyze massive seismic datasets to predict where oil, gas, or minerals are located, reducing exploratory drilling costs. AI optimizes extraction rates and predicts equipment failures. However, the industry is in structural decline due to energy transition away from fossil fuels. While AI increases productivity per engineer, total demand for petroleum engineers is falling due to reduced drilling activity and ESG pressures on oil companies.",
+                                                t2: "-2%",
+                                                t5: "-5%",
+                                                t10: "-10%",
+                                                paradox: {
+                                                    title: "The Efficiency Curse",
+                                                    text: "AI makes engineers so productive that fewer are needed, accelerating the field's decline during energy transition."
+                                                }
+                                            },
+                                            age: {
+                                                mean: 46.0,
+                                                sigma: 11.0,
+                                                bracket: "35-57",
+                                                nuance: "Graying profession. Few young entrants due to climate concerns and volatile industry. Experienced engineers highly valued but retiring without replacement."
+                                            }
+                                        },
+                                        {
+                                            name: "Other Engineering Specialties",
+                                            value: 1.96,
+                                            category: "C",
+                                            financial: {
+                                                mean: 96800,
+                                                sigma: 33000,
+                                                p10: 60000,
+                                                p90: 145000,
+                                                nuance: "Catchall: Industrial, environmental, biomedical, nuclear, aerospace. Wide variance by specialty and sector."
+                                            },
+                                            ai: {
+                                                mech: "Domain-Specific AI Tools: Each specialty has tailored AI (e.g., biomedical imaging AI, aerospace simulation).",
+                                                mechDetail: "This diverse group includes industrial engineers (manufacturing optimization), biomedical engineers (medical device design), aerospace engineers (flight simulation), environmental engineers (pollution modeling), and nuclear engineers (reactor safety). Each has specialty-specific AI tools that increase productivity. Common thread: all involve physical systems where AI simulation accelerates design but real-world testing/validation cannot be automated. Job security varies by sub-specialty.",
+                                                t2: "+1%",
+                                                t5: "+3%",
+                                                t10: "+4%",
+                                                paradox: null
+                                            },
+                                            age: {
+                                                mean: 42.0,
+                                                sigma: 13.0,
+                                                bracket: "28-55",
+                                                nuance: "Broad group. Biomedical skews younger (new field). Nuclear skews older (requires extensive training/clearances). Industrial mid-range."
+                                            }
+                                        }
+                                    ]
                                 },
                                 {
                                     name: "Scientists",
@@ -900,18 +1063,6 @@
                                     age: { mean: 38.0, sigma: 11.0, bracket: "25-44", nuance: "Entry-level heavy with senior specialists." }
                                 },
                                 {
-                                    name: "Other Business Operations",
-                                    value: 13.4,
-                                    category: "C",
-                                    financial: { mean: 85000, sigma: 28000, p10: 45000, p90: 125000, nuance: "Catchall for business analysts, consultants, project managers, and operations specialists." },
-                                    ai: {
-                                        mech: "Process Automation: Workflow automation and AI project management tools reduce coordination roles.",
-                                        t2: "-1%", t5: "-8%", t10: "-15%",
-                                        paradox: null
-                                    },
-                                    age: { mean: 41.0, sigma: 12.5, bracket: "30-50", nuance: "Diverse group spanning entry-level analysts to senior strategists." }
-                                },
-                                {
                                     name: "Other Healthcare Practitioners",
                                     value: 3.0,
                                     category: "C",
@@ -924,16 +1075,274 @@
                                     age: { mean: 42.0, sigma: 11.5, bracket: "30-55", nuance: "Requires graduate degrees (PharmD, DPT) pushing entry age to late 20s." }
                                 },
                                 {
-                                    name: "Other Professional",
-                                    value: 2.6,
+                                    name: "Other Business Operations",
+                                    value: 13.4,
                                     category: "C",
-                                    financial: { mean: 78000, sigma: 30000, p10: 42000, p90: 120000, nuance: "Miscellaneous professional occupations including librarians, archivists, curators, and technicians." },
-                                    ai: {
-                                        mech: "Mixed Impact: Some roles (archivists) benefit from AI cataloging; others face automation pressure.",
-                                        t2: "0%", t5: "-3%", t10: "-5%",
-                                        paradox: null
-                                    },
-                                    age: { mean: 43.0, sigma: 13.0, bracket: "30-55", nuance: "Diverse professional support roles across industries." }
+                                    children: [
+                                        {
+                                            name: "Business Analysts",
+                                            value: 3.2,
+                                            category: "C",
+                                            financial: { mean: 82000, sigma: 24000, p10: 52000, p90: 120000, nuance: "SQL/Excel specialists. BI tools proficiency premium." },
+                                            ai: {
+                                                mech: "Copilot for Analysis: AI writes SQL queries, generates reports, creates dashboards.",
+                                                t2: "-2%", t5: "-8%", t10: "-12%",
+                                                paradox: { title: "Insight Inflation", text: "As AI generates unlimited reports, the value shifts to deciding *which* questions to ask." }
+                                            },
+                                            age: { mean: 38.0, sigma: 11.0, bracket: "28-45", nuance: "Entry-level heavy. Stepping stone to management or specialist roles." }
+                                        },
+                                        {
+                                            name: "Management Consultants",
+                                            value: 1.8,
+                                            category: "C",
+                                            financial: { mean: 145000, sigma: 65000, p10: 72000, p90: 250000, nuance: "MBB (McKinsey/Bain/BCG) top tier vs boutique lower tier." },
+                                            ai: {
+                                                mech: "Research Acceleration: AI handles data gathering, allowing consultants to focus on client relationships.",
+                                                t2: "+1%", t5: "-3%", t10: "-5%",
+                                                paradox: { title: "The Slide Deck Paradox", text: "AI makes perfect slides, but clients pay for *human* recommendations they can blame if wrong." }
+                                            },
+                                            age: { mean: 33.0, sigma: 8.0, bracket: "26-40", nuance: "Youth-biased. 'Up or out' model. Peak productivity 28-35." }
+                                        },
+                                        {
+                                            name: "Project Managers",
+                                            value: 4.1,
+                                            category: "C",
+                                            financial: { mean: 92000, sigma: 27000, p10: 58000, p90: 135000, nuance: "PMP certification adds $15k premium. Agile vs Waterfall wage parity." },
+                                            ai: {
+                                                mech: "Workflow Automation: AI project management tools (Asana AI, Monday.com) auto-assign tasks and track progress.",
+                                                t2: "0%", t5: "-5%", t10: "-10%",
+                                                paradox: { title: "Coordination Collapse", text: "AI handles logistics, but political negotiation (the real job) cannot be automated." }
+                                            },
+                                            age: { mean: 42.0, sigma: 11.0, bracket: "32-50", nuance: "Requires 5-10 years experience before moving into PM role." }
+                                        },
+                                {
+                                    name: "Retail Sales",
+                                    value: 13.8,
+                                    category: "C",
+                                    children: [
+                                        {
+                                            name: "Brick & Mortar Retail",
+                                            value: 7.2,
+                                            category: "C",
+                                            financial: { mean: 32100, sigma: 6500, p10: 24000, p90: 45000, nuance: "Clothing, electronics, furniture stores. Minimum wage + commission structure." },
+                                            ai: {
+                                                mech: "Self-Checkout & 'Just Walk Out': Amazon Go technology eliminates need for sales floor staff.",
+                                                t2: "-3%", t5: "-12%", t10: "-25%",
+                                                paradox: { title: "Shadow Work Transfer", text: "Customers now do the work (self-checkout, research) that salespeople used to be paid for." }
+                                            },
+                                            age: { mean: 34.5, sigma: 15.5, bracket: "20-35", nuance: "Youth-heavy. High school and college students comprise 30% of workforce." }
+                                        },
+                                        {
+                                            name: "Automotive Sales",
+                                            value: 1.9,
+                                            category: "C",
+                                            financial: { mean: 58400, sigma: 24000, p10: 32000, p90: 95000, nuance: "Pure commission model creates extreme variance. Top 10% earn 3x the median." },
+                                            ai: {
+                                                mech: "Online Car Buying: Carvana, Vroom, Tesla direct sales eliminate dealer middlemen.",
+                                                t2: "-2%", t5: "-10%", t10: "-18%",
+                                                paradox: { title: "The Test Drive Wall", text: "People still want to touch/drive the car before buying. Virtual showrooms can't replicate this." }
+                                            },
+                                            age: { mean: 38.0, sigma: 11.0, bracket: "28-48", nuance: "Requires product knowledge. Older than general retail due to complexity." }
+                                        },
+                                        {
+                                            name: "Tech & B2B Sales",
+                                            value: 2.4,
+                                            category: "C",
+                                            financial: { mean: 98000, sigma: 42000, p10: 55000, p90: 165000, nuance: "SaaS sales, enterprise software. OTE (On-Target Earnings) structure. Base + commission + equity." },
+                                            ai: {
+                                                mech: "AI Lead Generation: AI scrapes prospects and personalizes outreach, but relationship-building remains human.",
+                                                t2: "0%", t5: "-3%", t10: "-8%",
+                                                paradox: { title: "The Trust Premium", text: "As AI spam floods inboxes, authentic human connection becomes more valuable in high-stakes B2B deals." }
+                                            },
+                                            age: { mean: 35.0, sigma: 9.0, bracket: "27-42", nuance: "Younger than traditional sales. Tech industry skews demographics." }
+                                        },
+                                {
+                                    name: "Executives (CEOs)",
+                                    value: 10.2,
+                                    category: "C",
+                                    children: [
+                                        {
+                                            name: "C-Suite (Large Corp)",
+                                            value: 0.05,
+                                            category: "C",
+                                            financial: { mean: 850000, sigma: 500000, p10: 400000, p90: 2000000, nuance: "Capped BLS reporting. True mean likely $1.5M+. Stock options dominate comp." },
+                                            ai: {
+                                                mech: "Strategic AI: AI provides scenario analysis, but board-level decisions remain human.",
+                                                t2: "0%", t5: "0%", t10: "0%",
+                                                paradox: { title: "The Accountability Shield", text: "No board will accept 'the AI decided' as defense in shareholder lawsuit." }
+                                            },
+                                            age: { mean: 56.0, sigma: 8.0, bracket: "50-65", nuance: "Peak age for Fortune 500 CEOs. Requires 20+ years climbing corporate ladder." }
+                                        },
+                                        {
+                                            name: "VPs & Division Leaders",
+                                            value: 1.2,
+                                            category: "C",
+                                            financial: { mean: 285000, sigma: 120000, p10: 155000, p90: 485000, nuance: "Public company VPs vs private company equivalents. Industry variance (tech higher, retail lower)." },
+                                            ai: {
+                                                mech: "Span of Control Expansion: AI handles operational details, allowing oversight of larger teams.",
+                                                t2: "0%", t5: "-3%", t10: "-8%",
+                                                paradox: null
+                                            },
+                                            age: { mean: 48.0, sigma: 9.0, bracket: "42-58", nuance: "Late-career. Survivors of corporate tournament." }
+                                        },
+                                        {
+                                            name: "Small/Mid Business Owners",
+                                            value: 6.5,
+                                            category: "C",
+                                            financial: { mean: 175000, sigma: 95000, p10: 65000, p90: 320000, nuance: "Extreme variance. Struggling restaurant owner vs thriving contractor." },
+                                            ai: {
+                                                mech: "Solopreneur Empowerment: AI tools (accounting, marketing, HR) allow one-person businesses to scale.",
+                                                t2: "+2%", t5: "+5%", t10: "+8%",
+                                                paradox: { title: "The Middleman Collapse", text: "AI eliminates need for employees, creating million one-person $1M revenue businesses." }
+                                            },
+                                            age: { mean: 46.0, sigma: 12.0, bracket: "35-58", nuance: "Requires capital accumulation. Peak founding age 40-50." }
+                                        },
+                                {
+                                    name: "Transport (Logistics)",
+                                    value: 11.2,
+                                    category: "C",
+                                    children: [
+                                        {
+                                            name: "Long-Haul Truckers",
+                                            value: 1.8,
+                                            category: "C",
+                                            financial: { mean: 52000, sigma: 12000, p10: 38000, p90: 72000, nuance: "Owner-operators earn more but bear costs. Company drivers more stable." },
+                                            ai: {
+                                                mech: "Autonomous Trucks: Level 4 AVs could eliminate 1.8M jobs if regulation passes.",
+                                                t2: "0%", t5: "-5%", t10: "-30%",
+                                                paradox: { title: "The Safety Paradox", text: "AVs are safer but politically difficult. One high-profile accident could halt deployment for years." }
+                                            },
+                                            age: { mean: 46.0, sigma: 12.0, bracket: "35-55", nuance: "Older workforce. Long hours and health issues drive early exit. Few young entrants." }
+                                        },
+                                        {
+                                            name: "Last-Mile Delivery",
+                                            value: 3.8,
+                                            category: "C",
+                                            financial: { mean: 38200, sigma: 9000, p10: 28000, p90: 52000, nuance: "Amazon, UPS, FedEx drivers. Gig workers (DoorDash, Instacart) pull average down." },
+                                            ai: {
+                                                mech: "Partial Automation: Drones for rural, robots for apartments. But 'last 50 feet' remains hard.",
+                                                t2: "+5%", t5: "0%", t10: "-10%",
+                                                paradox: { title: "The Doorstep Problem", text: "Drones can't climb stairs or navigate apartment complexes. Physical world is messy." }
+                                            },
+                                            age: { mean: 32.0, sigma: 12.0, bracket: "22-42", nuance: "Gig economy attracts students and career switchers. High turnover." }
+                                        },
+                                        {
+                                            name: "Warehouse & Material Handlers",
+                                            value: 4.2,
+                                            category: "C",
+                                            financial: { mean: 39500, sigma: 8000, p10: 30000, p90: 52000, nuance: "Amazon warehouses set wage floor at $15-18/hr. Physically demanding work." },
+                                            ai: {
+                                                mech: "Warehouse Robotics: Amazon Proteus, AutoStore systems reduce human pickers.",
+                                                t2: "+3%", t5: "-5%", t10: "-20%",
+                                                paradox: { title: "The Growth Paradox", text: "E-commerce growth creates jobs faster than robots eliminate them... for now." }
+                                            },
+                                            age: { mean: 34.0, sigma: 13.0, bracket: "22-45", nuance: "Young, transient workforce. High injury rates force early career exits." }
+                                        },
+                                        {
+                                            name: "Pilots (Commercial/Cargo)",
+                                            value: 0.12,
+                                            category: "C",
+                                            financial: { mean: 165000, sigma: 55000, p10: 95000, p90: 250000, nuance: "Regional pilots earn half of major carrier captains. Seniority-based pay." },
+                                            ai: {
+                                                mech: "Mature Autopilot: Already 95% automated. Human for takeoff/landing and emergencies only.",
+                                                t2: "0%", t5: "0%", t10: "0%",
+                                                paradox: { title: "The Certification Wall", text: "FAA will never allow pilotless passenger planes due to liability/public fear." }
+                                            },
+                                            age: { mean: 44.0, sigma: 10.0, bracket: "35-55", nuance: "Requires expensive training ($80k+). Peak earnings 45-60 before mandatory retirement at 65." }
+                                        },
+                                {
+                                    name: "Food Prep",
+                                    value: 8.1,
+                                    category: "C",
+                                    children: [
+                                        {
+                                            name: "Fast Food Workers",
+                                            value: 4.5,
+                                            category: "C",
+                                            financial: { mean: 28200, sigma: 4000, p10: 23000, p90: 36000, nuance: "Minimum wage dominates. Tips minimal. Limited room for growth." },
+                                            ai: {
+                                                mech: "Kiosks + Cooking Robots: Self-order kiosks universal. 'Flippy' robots fry/flip.",
+                                                t2: "-2%", t5: "-10%", t10: "-35%",
+                                                paradox: { title: "The $15 Trigger", text: "Minimum wage hikes accelerate automation. Every dollar increase makes robots more economical." }
+                                            },
+                                            age: { mean: 24.0, sigma: 8.0, bracket: "16-28", nuance: "Youngest workforce in America. High school/college students dominate. 40% turnover annually." }
+                                        },
+                                        {
+                                            name: "Restaurant Servers",
+                                            value: 2.1,
+                                            category: "C",
+                                            financial: { mean: 31500, sigma: 7200, p10: 22000, p90: 45000, nuance: "Tips comprise 60-70% of income. High variance based on venue type." },
+                                            ai: {
+                                                mech: "QR Code Ordering: Tablets at tables eliminate need for order-taking. Runners deliver food.",
+                                                t2: "-1%", t5: "-8%", t10: "-20%",
+                                                paradox: { title: "The Service Premium", text: "High-end restaurants keep servers for 'experience.' Fast-casual eliminates them." }
+                                            },
+                                            age: { mean: 29.0, sigma: 11.0, bracket: "20-35", nuance: "Mix of career servers (35+) and transient youth. Bimodal distribution." }
+                                        },
+                                        {
+                                            name: "Cooks (Line/Prep)",
+                                            value: 1.2,
+                                            category: "C",
+                                            financial: { mean: 35800, sigma: 8000, p10: 27000, p90: 48000, nuance: "Chain restaurants pay less than independents. Night shift differential adds 10%." },
+                                            ai: {
+                                                mech: "Partial Robotic Assistance: Automated fryers, but complex plating remains manual.",
+                                                t2: "0%", t5: "-3%", t10: "-10%",
+                                                paradox: null
+                                            },
+                                            age: { mean: 32.0, sigma: 12.0, bracket: "22-42", nuance: "More stable than servers. Career track for some toward head cook." }
+                                        },
+                                {
+                                    name: "Production (Factory)",
+                                    value: 8.8,
+                                    category: "C",
+                                    children: [
+                                        {
+                                            name: "Automotive Assembly",
+                                            value: 1.1,
+                                            category: "C",
+                                            financial: { mean: 58200, sigma: 12000, p10: 44000, p90: 78000, nuance: "UAW union contracts. Overtime pushes earnings higher. Detroit premium." },
+                                            ai: {
+                                                mech: "Mature Robots + Reshoring: Already 70% automated. Reshoring from China may create jobs despite automation.",
+                                                t2: "+1%", t5: "+2%", t10: "+3%",
+                                                paradox: { title: "The Reshoring Paradox", text: "Jobs return to US, but they're robot jobs. Headcount grows slower than output." }
+                                            },
+                                            age: { mean: 46.0, sigma: 11.0, bracket: "38-55", nuance: "Aging workforce. Strong union seniority protection. Few young hires." }
+                                        },
+                                        {
+                                            name: "Food Processing & Packaging",
+                                            value: 2.9,
+                                            category: "C",
+                                            financial: { mean: 36800, sigma: 7000, p10: 28000, p90: 48000, nuance: "Meatpacking, dairy, bakeries. High injury rates. Immigrant workforce heavy." },
+                                            ai: {
+                                                mech: "Vision Systems & Automation: Quality inspection automated. Robotic butchering for simple cuts.",
+                                                t2: "0%", t5: "-5%", t10: "-10%",
+                                                paradox: null
+                                            },
+                                            age: { mean: 39.0, sigma: 13.0, bracket: "28-50", nuance: "Younger than auto. High immigrant participation. Turnover due to working conditions." }
+                                        },
+                                        {
+                                            name: "General Manufacturing",
+                                            value: 4.8,
+                                            category: "C",
+                                            financial: { mean: 49500, sigma: 13000, p10: 34000, p90: 68000, nuance: "Electronics, chemicals, machinery, textiles. Industry variance high." },
+                                            ai: {
+                                                mech: "Collaborative Robots (Cobots): Humans and robots work side-by-side. Vision inspection automated.",
+                                                t2: "0%", t5: "-3%", t10: "-5%",
+                                                paradox: { title: "The Skills Inversion", text: "Factory workers now program robots instead of operating machines. Blue-collar becomes semi-technical." }
+                                            },
+                                            age: { mean: 45.5, sigma: 14.0, bracket: "35-58", nuance: "Broad age range. Skilled machinists (older) vs assembly workers (younger)." }
+                                        }
+                                    ]
+                                }
+                                    ]
+                                }
+                                    ]
+                                }
+                                    ]
+                                }
+                                    ]
+                                }
+                                    ]
                                 }
                             ]
                         },
@@ -946,13 +1355,56 @@
                                     name: "Food Prep",
                                     value: 8.1,
                                     category: "C",
-                                    financial: { mean: 34490, sigma: 7600, p10: 22160, p90: 47390, nuance: "Highly compressed. Fast food (~$28k) vs Exec Chefs." },
-                                    ai: {
-                                        mech: "Kiosks & Robotics: Ordering automated; 'Flippy' robots for repetitive frying.",
-                                        t2: "-1%", t5: "-5%", t10: "Attrition",
-                                        paradox: null
-                                    },
-                                    age: { mean: 29.8, sigma: 10.4, bracket: "16-24", nuance: "Lowest Mean Age. Primary domain of the 'Frictional' workforce." }
+                                    children: [
+                                        {
+                                            name: "Fast Food Workers",
+                                            value: 4.5,
+                                            category: "C",
+                                            financial: { mean: 28200, sigma: 4000, p10: 23000, p90: 36000, nuance: "Minimum wage dominates. Tips minimal. Limited room for growth." },
+                                            ai: {
+                                                mech: "Kiosks + Cooking Robots: Self-order kiosks universal. 'Flippy' robots fry/flip.",
+                                                t2: "-2%", t5: "-10%", t10: "-35%",
+                                                paradox: { title: "The $15 Trigger", text: "Minimum wage hikes accelerate automation. Every dollar increase makes robots more economical." }
+                                            },
+                                            age: { mean: 24.0, sigma: 8.0, bracket: "16-28", nuance: "Youngest workforce in America. High school/college students dominate. 40% turnover annually." }
+                                        },
+                                        {
+                                            name: "Restaurant Servers",
+                                            value: 2.1,
+                                            category: "C",
+                                            financial: { mean: 31500, sigma: 7200, p10: 22000, p90: 45000, nuance: "Tips comprise 60-70% of income. High variance based on venue type." },
+                                            ai: {
+                                                mech: "QR Code Ordering: Tablets at tables eliminate need for order-taking. Runners deliver food.",
+                                                t2: "-1%", t5: "-8%", t10: "-20%",
+                                                paradox: { title: "The Service Premium", text: "High-end restaurants keep servers for 'experience.' Fast-casual eliminates them." }
+                                            },
+                                            age: { mean: 29.0, sigma: 11.0, bracket: "20-35", nuance: "Mix of career servers (35+) and transient youth. Bimodal distribution." }
+                                        },
+                                        {
+                                            name: "Cooks (Line/Prep)",
+                                            value: 1.2,
+                                            category: "C",
+                                            financial: { mean: 35800, sigma: 8000, p10: 27000, p90: 48000, nuance: "Chain restaurants pay less than independents. Night shift differential adds 10%." },
+                                            ai: {
+                                                mech: "Partial Robotic Assistance: Automated fryers, but complex plating remains manual.",
+                                                t2: "0%", t5: "-3%", t10: "-10%",
+                                                paradox: null
+                                            },
+                                            age: { mean: 32.0, sigma: 12.0, bracket: "22-42", nuance: "More stable than servers. Career track for some toward head cook." }
+                                        },
+                                        {
+                                            name: "Chefs (Exec/Head)",
+                                            value: 0.3,
+                                            category: "C",
+                                            financial: { mean: 65400, sigma: 25000, p10: 42000, p90: 105000, nuance: "Executive chefs at upscale restaurants earn 2-3x fast-casual head cooks." },
+                                            ai: {
+                                                mech: "Creative Direction: AI suggests recipes, but culinary artistry and kitchen management remain human.",
+                                                t2: "0%", t5: "+1%", t10: "+2%",
+                                                paradox: { title: "The Creativity Defense", text: "As fast food automates, 'chef' becomes exclusively an artisan role." }
+                                            },
+                                            age: { mean: 42.0, sigma: 11.0, bracket: "32-52", nuance: "Requires 10-15 years experience. Peak earnings 40-55." }
+                                        }
+                                    ]
                                 },
                                 {
                                     name: "Protective Service",
@@ -1025,25 +1477,157 @@
                                     name: "Retail Sales",
                                     value: 13.8,
                                     category: "C",
-                                    financial: { mean: 53280, sigma: 21900, p10: 25790, p90: 98040, nuance: "Retail (~$30k) vs Tech/Wholesale (~$90k)." },
-                                    ai: {
-                                        mech: "Self-Service: 'Just Walk Out' (Computer Vision) eliminates checkout.",
-                                        t2: "-2%", t5: "-8%", t10: "Reduct.",
-                                        paradox: "Shadow Work: The labor of checkout is transferred from the paid employee to the unpaid customer."
-                                    },
-                                    age: { mean: 37.5, sigma: 14.8, bracket: "16-24", nuance: "Youth-Heavy. 16-24 cohort is ~27% of workforce. High turnover." }
+                                    children: [
+                                        {
+                                            name: "Brick & Mortar Retail",
+                                            value: 7.2,
+                                            category: "C",
+                                            financial: { mean: 32100, sigma: 6500, p10: 24000, p90: 45000, nuance: "Clothing, electronics, furniture stores. Minimum wage + commission structure." },
+                                            ai: {
+                                                mech: "Self-Checkout & 'Just Walk Out': Amazon Go technology eliminates need for sales floor staff.",
+                                                t2: "-3%", t5: "-12%", t10: "-25%",
+                                                paradox: { title: "Shadow Work Transfer", text: "Customers now do the work (self-checkout, research) that salespeople used to be paid for." }
+                                            },
+                                            age: { mean: 34.5, sigma: 15.5, bracket: "20-35", nuance: "Youth-heavy. High school and college students comprise 30% of workforce." }
+                                        },
+                                        {
+                                            name: "Automotive Sales",
+                                            value: 1.9,
+                                            category: "C",
+                                            financial: { mean: 58400, sigma: 24000, p10: 32000, p90: 95000, nuance: "Pure commission model creates extreme variance. Top 10% earn 3x the median." },
+                                            ai: {
+                                                mech: "Online Car Buying: Carvana, Vroom, Tesla direct sales eliminate dealer middlemen.",
+                                                t2: "-2%", t5: "-10%", t10: "-18%",
+                                                paradox: { title: "The Test Drive Wall", text: "People still want to touch/drive the car before buying. Virtual showrooms can't replicate this." }
+                                            },
+                                            age: { mean: 38.0, sigma: 11.0, bracket: "28-48", nuance: "Requires product knowledge. Older than general retail due to complexity." }
+                                        },
+                                        {
+                                            name: "Tech & B2B Sales",
+                                            value: 2.4,
+                                            category: "C",
+                                            financial: { mean: 98000, sigma: 42000, p10: 55000, p90: 165000, nuance: "SaaS sales, enterprise software. OTE (On-Target Earnings) structure. Base + commission + equity." },
+                                            ai: {
+                                                mech: "AI Lead Generation: AI scrapes prospects and personalizes outreach, but relationship-building remains human.",
+                                                t2: "0%", t5: "-3%", t10: "-8%",
+                                                paradox: { title: "The Trust Premium", text: "As AI spam floods inboxes, authentic human connection becomes more valuable in high-stakes B2B deals." }
+                                            },
+                                            age: { mean: 35.0, sigma: 9.0, bracket: "27-42", nuance: "Younger than traditional sales. Tech industry skews demographics." }
+                                        },
+                                        {
+                                            name: "Insurance & Financial Sales",
+                                            value: 2.3,
+                                            category: "C",
+                                            financial: { mean: 76500, sigma: 33000, p10: 42000, p90: 125000, nuance: "Life insurance agents (high commission) vs bank tellers (low fixed)." },
+                                            ai: {
+                                                mech: "Robo-Advisors: Betterment, Wealthfront automate portfolio management. Insurance comparison sites replace agents.",
+                                                t2: "-1%", t5: "-8%", t10: "-15%",
+                                                paradox: { title: "Regulatory Arbitrage", text: "Robo-advisors avoid fiduciary duty that human advisors face, creating unfair competition." }
+                                            },
+                                            age: { mean: 44.0, sigma: 13.0, bracket: "35-55", nuance: "Requires licensing. Older demographic reflects barrier to entry." }
+                                        }
+                                    ]
                                 },
                                 {
                                     name: "Office Admin",
                                     value: 15.7,
                                     category: "C",
-                                    financial: { mean: 47940, sigma: 12500, p10: 30240, p90: 71440, nuance: "Largest group in US. High AI automation risk." },
-                                    ai: {
-                                        mech: "Direct Substitution: LLMs/Voice Agents perform core retrieval/routing at zero cost.",
-                                        t2: "-2%", t5: "-12%", t10: "Collapse",
-                                        paradox: { title: "The Paperwork Cliff", text: "There is no infinite demand for paperwork. If AI does it, the job simply disappears." }
-                                    },
-                                    age: { mean: 49.1, sigma: 13.0, bracket: "50+", nuance: "'Sunset' Node. Demographic cliff: retiring cohort not being replaced." }
+                                    children: [
+                                        {
+                                            name: "Customer Service Reps",
+                                            value: 2.8,
+                                            category: "C",
+                                            financial: { mean: 38450, sigma: 8200, p10: 26000, p90: 54000, nuance: "Call centers closing due to AI. Remote work common but threatened." },
+                                            ai: {
+                                                mech: "Voice AI Replacement: GPT-4 voice agents handle 80% of call center queries.",
+                                                mechDetail: "Modern voice AI (GPT-4o, Claude) can handle customer service calls with human-like fluency, routing only complex escalations to humans. The 'Tier 1 support' role - password resets, order status, FAQ responses - is perfectly suited for automation. Call centers are closing at record rates. The remaining human reps handle only the most complex, emotionally charged interactions that require empathy and nuanced judgment.",
+                                                t2: "-3%", t5: "-15%", t10: "Collapse",
+                                                paradox: { title: "The Empathy Cliff", text: "AI handles routine queries perfectly, but fails catastrophically at angry customers - creating demand for 'emotional labor' specialists." }
+                                            },
+                                            age: { mean: 38.5, sigma: 14.0, bracket: "25-45", nuance: "Younger than general admin due to call center hiring practices. High turnover." }
+                                        },
+                                        {
+                                            name: "Administrative Assistants",
+                                            value: 3.9,
+                                            category: "C",
+                                            financial: { mean: 45200, sigma: 10500, p10: 32000, p90: 62000, nuance: "Executive assistants (upper tail) vs general admin (lower tail)." },
+                                            ai: {
+                                                mech: "Agentic Workflows: AI agents schedule meetings, book travel, draft emails.",
+                                                mechDetail: "AI calendar agents (x.ai, Clockwise) automatically schedule meetings by negotiating with other calendars. AI travel agents book optimal routes. AI writing assistants draft professional emails. The 'assistant' role shifts from execution (doing the tasks) to supervision (checking the AI's work). One executive can now be supported by AI + 1 human instead of 3 humans.",
+                                                t2: "-5%", t5: "-18%", t10: "-30%",
+                                                paradox: { title: "The Executive Bottleneck", text: "As admins disappear, executives drown in their own calendars - creating demand for ultra-premium 'Chief of Staff' roles." }
+                                            },
+                                            age: { mean: 46.0, sigma: 12.5, bracket: "35-55", nuance: "Older than CSRs. Long tenure with specific executives common." }
+                                        },
+                                        {
+                                            name: "Data Entry & Processing Clerks",
+                                            value: 4.2,
+                                            category: "C",
+                                            financial: { mean: 39800, sigma: 8800, p10: 28500, p90: 52000, nuance: "Lowest-skill office work. Minimum wage floor in many states." },
+                                            ai: {
+                                                mech: "Perfect Substitution: OCR and RPA (Robotic Process Automation) eliminate manual data entry.",
+                                                mechDetail: "Optical Character Recognition (OCR) and Robotic Process Automation (RPA) tools can extract data from documents and input it into systems at near-perfect accuracy. AI form-filling agents navigate complex web interfaces. The tasks defining this role - typing numbers from one system into another, copying information from PDFs to spreadsheets - are the textbook definition of 'automatable.' This role is already in terminal decline.",
+                                                t2: "-8%", t5: "-25%", t10: "-45%",
+                                                paradox: null
+                                            },
+                                            age: { mean: 42.0, sigma: 15.0, bracket: "25-50", nuance: "Bimodal: young entry-level and older workers with limited options." }
+                                        },
+                                {
+                                    name: "Physicians",
+                                    value: 2.0,
+                                    category: "C",
+                                    children: [
+                                        {
+                                            name: "Primary Care Physicians",
+                                            value: 0.66,
+                                            category: "C",
+                                            financial: { mean: 220000, sigma: 40000, p10: 165000, p90: 285000, nuance: "Family medicine, internal medicine, pediatrics. Lower than specialists but more stable hours." },
+                                            ai: {
+                                                mech: "AI Scribes + Diagnostics: AI writes notes, suggests diagnoses. Frees time for patient interaction.",
+                                                t2: "+4%", t5: "+10%", t10: "+15%",
+                                                paradox: { title: "The Productivity Trap", text: "AI lets one doctor see 30 patients/day instead of 20. Burnout risk increases despite tool 'help'." }
+                                            },
+                                            age: { mean: 49.0, sigma: 11.0, bracket: "38-60", nuance: "Broad entry window. Some enter at 30 (MD), others 35 (MD-PhD). Work into late 60s common." }
+                                        },
+                                        {
+                                            name: "Surgeons",
+                                            value: 0.22,
+                                            category: "C",
+                                            financial: { mean: 400000, sigma: 95000, p10: 285000, p90: 550000, nuance: "Orthopedic and cardiothoracic top earners ($600k+). General surgery lower ($350k)." },
+                                            ai: {
+                                                mech: "Robotic Surgery: Da Vinci robots assist, but human controls. AI planning for complex procedures.",
+                                                t2: "+2%", t5: "+5%", t10: "+8%",
+                                                paradox: { title: "The Precision Premium", text: "Robotic surgery increases precision, expanding pool of operable patients. Demand grows." }
+                                            },
+                                            age: { mean: 52.0, sigma: 9.0, bracket: "42-62", nuance: "Latest entry of any MD specialty (7yr residency). Peak productivity 45-58. Physical demands force earlier retirement." }
+                                        },
+                                        {
+                                            name: "Medical Specialists",
+                                            value: 0.75,
+                                            category: "C",
+                                            financial: { mean: 380000, sigma: 110000, p10: 240000, p90: 560000, nuance: "Cardiology, oncology, radiology, anesthesiology. Procedure-based earn more than consultation-based." },
+                                            ai: {
+                                                mech: "AI Diagnostics: Radiology AI detects cancers. Pathology AI analyzes biopsies. But humans verify and treat.",
+                                                t2: "+3%", t5: "+8%", t10: "+12%",
+                                                paradox: { title: "The Detection Boom", text: "AI finds diseases at Stage 1 instead of Stage 3. More treatable cases = more demand for specialists." }
+                                            },
+                                            age: { mean: 51.0, sigma: 10.0, bracket: "40-62", nuance: "3-5yr fellowships after residency. Peak earnings 50-60." }
+                                        },
+                                        {
+                                            name: "Psychiatrists",
+                                            value: 0.37,
+                                            category: "C",
+                                            financial: { mean: 265000, sigma: 75000, p10: 185000, p90: 380000, nuance: "Private practice commands premium. Acute care/inpatient pays less but more stable." },
+                                            ai: {
+                                                mech: "Cannot Automate Therapy: AI chatbots exist but cannot replace human empathy in mental health crises.",
+                                                t2: "+5%", t5: "+12%", t10: "+18%",
+                                                paradox: { title: "The Loneliness Epidemic", text: "As AI replaces human interaction everywhere else, mental health crisis explodes. Psychiatrists in shortage." }
+                                            },
+                                            age: { mean: 50.0, sigma: 11.0, bracket: "38-62", nuance: "4yr residency. Careers often extend into 70s (no physical demands). Work-life balance better than other MDs." }
+                                        }
+                                    ]
+                                }
+                                    ]
                                 }
                             ]
                         },
@@ -1088,30 +1672,6 @@
                                         paradox: null
                                     },
                                     age: { mean: 44.5, sigma: 10.0, bracket: "35-54", nuance: "Represents time to master trade and physical necessity of moving off 'the tools'." }
-                                },
-                                {
-                                    name: "Transport (Logistics)",
-                                    value: 11.2,
-                                    category: "C",
-                                    financial: { mean: 46500, sigma: 11600, p10: 29270, p90: 67510, nuance: "Pilots (High) vs Uber/Truckers (Low)." },
-                                    ai: {
-                                        mech: "High Risk: AVs (Level 4) and warehouse robotics.",
-                                        t2: "+2%", t5: "0%", t10: "Risk",
-                                        paradox: null
-                                    },
-                                    age: { mean: 36.1, sigma: 11.0, bracket: "20-34", nuance: "The Exception. Driven by e-commerce. Young, expanding node." }
-                                },
-                                {
-                                    name: "Production (Factory)",
-                                    value: 8.8,
-                                    category: "C",
-                                    financial: { mean: 47620, sigma: 12100, p10: 30550, p90: 70370, nuance: "Auto Mfg (~$55k) vs Slaughtering (~$35k)." },
-                                    ai: {
-                                        mech: "Mature Automation: 'Cobots' and vision inspection.",
-                                        t2: "0%", t5: "-2%", t10: "Reshoring",
-                                        paradox: null
-                                    },
-                                    age: { mean: 44.8, sigma: 13.9, bracket: "45-64", nuance: "Inverted Pyramid. 20-24 cohort is dangerously thin vs 45-64." }
                                 },
                                 {
                                     name: "Installation, Maintenance, & Repair",
