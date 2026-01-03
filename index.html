@@ -1004,7 +1004,7 @@
                                 },
                                 {
                                     name: "Other Service",
-                                    value: 1.7,
+                                    value: 0.7,
                                     category: "C",
                                     financial: { mean: 36000, sigma: 9000, p10: 24000, p90: 52000, nuance: "Miscellaneous service occupations including animal care, entertainment attendants, and personal services." },
                                     ai: {
@@ -1127,7 +1127,7 @@
                                 },
                                 {
                                     name: "Other Blue Collar",
-                                    value: 1.0,
+                                    value: 0.5,
                                     category: "C",
                                     financial: { mean: 48000, sigma: 14000, p10: 32000, p90: 68000, nuance: "Miscellaneous production, extraction, and material moving occupations." },
                                     ai: {
@@ -1342,8 +1342,8 @@
             const leafCount = root.leaves().length;
             const nodeSpacing = 50;
             const height = Math.max(container.clientHeight, leafCount * nodeSpacing + 100);
-            const levels = 4; const layerWidth = 400; 
-            const chartWidth = Math.max(width, levels * layerWidth + 200);
+            const levels = 4; const layerWidth = 550; 
+            const chartWidth = Math.max(width, levels * layerWidth + 400);
 
             d3.select("#chart-container").selectAll("*").remove();
 
