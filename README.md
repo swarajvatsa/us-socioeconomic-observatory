@@ -12,7 +12,9 @@ An interactive data visualization exploring US population demographics with fina
 
 ## View Live
 
-[Click here to view the live visualization](#) *(Add your GitHub Pages URL after deployment)*
+🚀 **[View Live Visualization](https://swarajvatsa.github.io/us-socioeconomic-observatory/)**
+
+Once GitHub Pages is enabled, your visualization will be available at the URL above.
 
 ## How to Deploy
 

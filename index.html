@@ -606,7 +606,7 @@
                 },
                 {
                     name: "C. Employed",
-                    value: 161.3,
+                    value: 158.7,
                     category: "C",
                     children: [
                         {
@@ -850,6 +850,90 @@
                                         paradox: null
                                     },
                                     age: { mean: 46.2, sigma: 10.5, bracket: "45+", nuance: "Top-Heavy. Requires tenure (teaching first). Looming retirement wave." }
+                                },
+                                {
+                                    name: "General & Operations Mgrs",
+                                    value: 2.5,
+                                    category: "C",
+                                    financial: { mean: 129330, sigma: 65500, p10: 55000, p90: 185000, nuance: "Title applied to both small retail supervisors (lower tail) and VP-level operatives (upper tail)." },
+                                    ai: {
+                                        mech: "Span of Control: AI handles logistics, allowing managers to oversee larger teams.",
+                                        t2: "0%", t5: "-2%", t10: "-5%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 44.0, sigma: 12.0, bracket: "35-54", nuance: "Broad title covering supervisors to senior directors." }
+                                },
+                                {
+                                    name: "Computer & IS Managers",
+                                    value: 0.5,
+                                    category: "C",
+                                    financial: { mean: 169894, sigma: 48200, p10: 95000, p90: 230000, nuance: "High floor, high ceiling. Even 10th percentile earns significantly above national median." },
+                                    ai: {
+                                        mech: "Technical Leadership: AI automates infrastructure management but increases system complexity.",
+                                        t2: "+1%", t5: "+2%", t10: "+3%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 43.5, sigma: 10.0, bracket: "35-54", nuance: "Requires technical experience before moving into management." }
+                                },
+                                {
+                                    name: "Financial Managers",
+                                    value: 1.5,
+                                    category: "C",
+                                    financial: { mean: 156100, sigma: 55000, p10: 70000, p90: 200000, nuance: "10th percentile is $45,480, while 90th is $140,490. Wide spread suggests bifurcation." },
+                                    ai: {
+                                        mech: "Strategic Finance: AI handles analysis and forecasting; humans make capital allocation decisions.",
+                                        t2: "0%", t5: "-3%", t10: "-5%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 45.5, sigma: 11.0, bracket: "35-54", nuance: "Requires CPA/CFA credentials and years of experience." }
+                                },
+                                {
+                                    name: "Market Research Analysts",
+                                    value: 0.8,
+                                    category: "C",
+                                    financial: { mean: 87870, sigma: 34400, p10: 40000, p90: 130000, nuance: "Wide variation based on industry (tech vs retail) and seniority." },
+                                    ai: {
+                                        mech: "Data Synthesis: AI scrapes and analyzes consumer data; humans interpret strategic implications.",
+                                        t2: "0%", t5: "-5%", t10: "-10%",
+                                        paradox: { title: "Survey Collapse", text: "As AI predicts consumer behavior, traditional surveys become obsolete." }
+                                    },
+                                    age: { mean: 38.0, sigma: 11.0, bracket: "25-44", nuance: "Entry-level heavy with senior specialists." }
+                                },
+                                {
+                                    name: "Other Business Operations",
+                                    value: 13.4,
+                                    category: "C",
+                                    financial: { mean: 85000, sigma: 28000, p10: 45000, p90: 125000, nuance: "Catchall for business analysts, consultants, project managers, and operations specialists." },
+                                    ai: {
+                                        mech: "Process Automation: Workflow automation and AI project management tools reduce coordination roles.",
+                                        t2: "-1%", t5: "-8%", t10: "-15%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 41.0, sigma: 12.5, bracket: "30-50", nuance: "Diverse group spanning entry-level analysts to senior strategists." }
+                                },
+                                {
+                                    name: "Other Healthcare Practitioners",
+                                    value: 3.0,
+                                    category: "C",
+                                    financial: { mean: 92000, sigma: 35000, p10: 50000, p90: 145000, nuance: "Includes pharmacists ($140k), physical therapists ($95k), dietitians ($65k), respiratory therapists ($70k)." },
+                                    ai: {
+                                        mech: "Clinical Support: AI assists with drug interaction checking and treatment protocols.",
+                                        t2: "+2%", t5: "+5%", t10: "+8%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 42.0, sigma: 11.5, bracket: "30-55", nuance: "Requires graduate degrees (PharmD, DPT) pushing entry age to late 20s." }
+                                },
+                                {
+                                    name: "Other Professional",
+                                    value: 2.6,
+                                    category: "C",
+                                    financial: { mean: 78000, sigma: 30000, p10: 42000, p90: 120000, nuance: "Miscellaneous professional occupations including librarians, archivists, curators, and technicians." },
+                                    ai: {
+                                        mech: "Mixed Impact: Some roles (archivists) benefit from AI cataloging; others face automation pressure.",
+                                        t2: "0%", t5: "-3%", t10: "-5%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 43.0, sigma: 13.0, bracket: "30-55", nuance: "Diverse professional support roles across industries." }
                                 }
                             ]
                         },
@@ -881,6 +965,54 @@
                                         paradox: null
                                     },
                                     age: { mean: 40.5, sigma: 9.2, bracket: "25-54", nuance: "Prime-Age Male. Lacks the teenage spike and geriatric tail." }
+                                },
+                                {
+                                    name: "Healthcare Support",
+                                    value: 5.3,
+                                    category: "C",
+                                    financial: { mean: 38220, sigma: 7000, p10: 26800, p90: 49840, nuance: "Highly compressed wages. Home health aides and nursing assistants have little room for growth." },
+                                    ai: {
+                                        mech: "Physical Care: Moravec's Paradox protects these jobs. Cannot automate bedpan changes or patient lifting.",
+                                        t2: "+3%", t5: "+8%", t10: "+15%",
+                                        paradox: { title: "Care Shortage", text: "Aging demographics create insatiable demand that AI cannot meet." }
+                                    },
+                                    age: { mean: 41.0, sigma: 13.0, bracket: "25-55", nuance: "Physically demanding work with high burnout. Early exit common." }
+                                },
+                                {
+                                    name: "Building & Grounds Cleaning",
+                                    value: 4.8,
+                                    category: "C",
+                                    financial: { mean: 35900, sigma: 7900, p10: 23640, p90: 49630, nuance: "Janitors, landscapers, pest control. Low wages with minimal variance." },
+                                    ai: {
+                                        mech: "Partial Automation: Robotic floor cleaners for large open spaces. Complex cleaning remains manual.",
+                                        t2: "0%", t5: "-2%", t10: "-5%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 42.0, sigma: 14.0, bracket: "25-55", nuance: "High immigrant workforce participation. Wide age spread." }
+                                },
+                                {
+                                    name: "Personal Care & Service",
+                                    value: 6.6,
+                                    category: "C",
+                                    financial: { mean: 38430, sigma: 10800, p10: 23130, p90: 58630, nuance: "Childcare workers ($31k), hairdressers ($35k), funeral directors ($60k). High variance." },
+                                    ai: {
+                                        mech: "Human Touch: Services requiring empathy and manual dexterity are AI-resistant.",
+                                        t2: "+1%", t5: "+3%", t10: "+5%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 38.0, sigma: 13.5, bracket: "20-50", nuance: "Younger workers in childcare; older in funeral services. Bimodal distribution." }
+                                },
+                                {
+                                    name: "Other Service",
+                                    value: 1.7,
+                                    category: "C",
+                                    financial: { mean: 36000, sigma: 9000, p10: 24000, p90: 52000, nuance: "Miscellaneous service occupations including animal care, entertainment attendants, and personal services." },
+                                    ai: {
+                                        mech: "Mixed Automation: Some tasks automated (ticket sales), others remain human (pet grooming).",
+                                        t2: "0%", t5: "-3%", t10: "-5%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 36.0, sigma: 14.0, bracket: "20-50", nuance: "Youth-heavy with high turnover." }
                                 }
                             ]
                         },
@@ -920,6 +1052,18 @@
                             value: 35.2,
                             category: "C",
                             children: [
+                                {
+                                    name: "Farming, Fishing, & Forestry",
+                                    value: 0.8,
+                                    category: "C",
+                                    financial: { mean: 39970, sigma: 8100, p10: 30010, p90: 56640, nuance: "Excludes farm managers. Low-wage, seasonally volatile labor pool." },
+                                    ai: {
+                                        mech: "Precision Agriculture: Autonomous tractors and drone monitoring. Harvesting delicate crops still manual.",
+                                        t2: "0%", t5: "-2%", t10: "-5%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 43.0, sigma: 15.0, bracket: "25-55", nuance: "Aging workforce with limited youth replacement. High immigrant participation." }
+                                },
                                 {
                                     name: "Construction",
                                     value: 8.0,
@@ -968,6 +1112,30 @@
                                         paradox: null
                                     },
                                     age: { mean: 44.8, sigma: 13.9, bracket: "45-64", nuance: "Inverted Pyramid. 20-24 cohort is dangerously thin vs 45-64." }
+                                },
+                                {
+                                    name: "Installation, Maintenance, & Repair",
+                                    value: 5.4,
+                                    category: "C",
+                                    financial: { mean: 58920, sigma: 16700, p10: 34340, p90: 89380, nuance: "HVAC techs, auto mechanics, telecom installers. 'Middle class' skilled trades." },
+                                    ai: {
+                                        mech: "Predictive Maintenance: IoT sensors predict failures. AR glasses assist in complex repairs.",
+                                        t2: "+1%", t5: "+3%", t10: "+3%",
+                                        paradox: { title: "Deskilling Risk", text: "AR assistance allows less-skilled techs to perform complex repairs, potentially lowering wages." }
+                                    },
+                                    age: { mean: 42.0, sigma: 12.5, bracket: "30-55", nuance: "Requires trade certification or apprenticeship. Physical work limits career length." }
+                                },
+                                {
+                                    name: "Other Blue Collar",
+                                    value: 1.0,
+                                    category: "C",
+                                    financial: { mean: 48000, sigma: 14000, p10: 32000, p90: 68000, nuance: "Miscellaneous production, extraction, and material moving occupations." },
+                                    ai: {
+                                        mech: "Varied Impact: Dependent on specific task and environment complexity.",
+                                        t2: "0%", t5: "-2%", t10: "-3%",
+                                        paradox: null
+                                    },
+                                    age: { mean: 42.0, sigma: 13.0, bracket: "30-55", nuance: "Mixed occupational group with varying age profiles." }
                                 }
                             ]
                         }
@@ -980,7 +1148,7 @@
                     children: [
                         {
                             name: "Frictional (<5 wks)",
-                            value: 5.5,
+                            value: 5.6,
                             category: "D",
                             financial: { mean: 24335, sigma: 8000, p10: 12000, p90: 45000, nuance: "State Benefits vary." },
                             ai: { mech: "AI Matching: Algorithms optimize job finding.", t2: "Faster", t5: "Faster", t10: "UBI?", paradox: null },
@@ -988,7 +1156,7 @@
                         },
                         {
                             name: "Structural (27+ wks)",
-                            value: 1.9,
+                            value: 2.0,
                             category: "D",
                             financial: { mean: 0, sigma: 0, nuance: "Benefits exhausted." },
                             ai: { mech: "Skill Mismatch: Skills obsolete.", t2: "Growing", t5: "Growing", t10: "Permanent", paradox: null },
@@ -1036,6 +1204,18 @@
                             financial: { mean: 18444, sigma: 5000, p10: 9600, p90: 45864, nuance: "SSDI." },
                             ai: null,
                             age: { mean: 56.8, sigma: 15.6, bracket: "50-64", nuance: "Pre-Retirement Holding Tank for those physically compromised." }
+                        },
+                        {
+                            name: "Other / Discouraged",
+                            value: 5.8,
+                            category: "E",
+                            financial: { mean: 0, sigma: 0, nuance: "Early retirees (<65), gap year individuals, discouraged workers, independently wealthy." },
+                            ai: {
+                                mech: "Opportunity Cost: As automation eliminates low-skill jobs, some exit labor force permanently.",
+                                t2: "Growing", t5: "Growing", t10: "Permanent",
+                                paradox: { title: "Voluntary Exit", text: "For some, not working becomes more rational than accepting low-wage jobs with high stress." }
+                            },
+                            age: { mean: 48.0, sigma: 16.0, bracket: "30-64", nuance: "Heterogeneous group including 'FIRE' retirees (30s-40s) and burned-out older workers (50s-60s)." }
                         }
                     ]
                 }
